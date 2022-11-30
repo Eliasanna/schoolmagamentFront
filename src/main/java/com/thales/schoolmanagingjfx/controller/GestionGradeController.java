@@ -64,7 +64,7 @@ public class GestionGradeController implements Initializable  {
         sectionGradeCol.setCellValueFactory(new PropertyValueFactory<>("section"));
         profGradeCol.setCellValueFactory(new PropertyValueFactory<>("teacher"));
 
-        GluonObservableList<Grade> gotList = HttpRequests.getAllGrade();
+        GluonObservableList<Grade> gotList = HttpRequests.getAllGrade(SchoolManagingApplication.getMySchool().getId());
         gotList.setOnSucceeded(connectStateEvent -> {
             this.grades = FXCollections.observableArrayList(gotList);
             tbView.setItems(this.grades);
@@ -97,7 +97,7 @@ public class GestionGradeController implements Initializable  {
         btnSup.setOnMouseClicked(mouseEvent -> {
             String id = lbId.getText();
             HttpRequests.deleteGrade(id);
-            SchoolManagingApplication.setScreen("accueil");
+
         });
     }
 

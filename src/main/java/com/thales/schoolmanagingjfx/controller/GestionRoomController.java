@@ -17,6 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -63,10 +64,34 @@ public class GestionRoomController implements Initializable {
 
     private void initializecb() {
 
-        GluonObservableList<Course> listCourse = HttpRequests.getAllCourse();
+        //recupere liste des courses
+        GluonObservableList<Course> listCourse = HttpRequests.getAllCourse(SchoolManagingApplication.getMySchool().getId());
         listCourse.setOnSucceeded(connectStateEvent -> {
             this.cbExcluCourse.setItems(listCourse);
         });
+
+        //formate la combobox
+        Callback<ListView<Course>, ListCell<Course>> roomCellFactory =
+                new Callback<ListView<Course>, ListCell<Course>>() {
+            @Override
+            public ListCell<Course> call(ListView<Course> l) {
+                return new ListCell<Course>() {
+
+                    @Override
+                    protected void updateItem(Course item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setGraphic(null);
+                        } else {
+                            setText(item.getId()+" "+item.getName());
+                        }
+                    }
+                } ;
+            }
+        };
+
+        this.cbExcluCourse.setButtonCell(roomCellFactory.call(null));
+        this.cbExcluCourse.setCellFactory(roomCellFactory);
 
     }
 
@@ -91,7 +116,6 @@ public class GestionRoomController implements Initializable {
         btnSup.setOnMouseClicked(mouseEvent -> {
             String id = lbId.getText();
             HttpRequests.deleteCourse(id);
-            SchoolManagingApplication.setScreen("accueil");
         });
     }
     private void initializeTableView() {

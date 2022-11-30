@@ -7,10 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -60,22 +59,37 @@ public class AccueilController implements Initializable  {
     }
 
     private void initialiseComboBox() {
+        //formate texte de la combobox
+            Callback<ListView<School>, ListCell<School>> schoolCellFactory =
+                    new Callback<ListView<School>, ListCell<School>>() {
+            @Override
+            public ListCell<School> call(ListView<School> l) {
+                return new ListCell<School>() {
 
-        cbSchool.setDisable(false);
+                    @Override
+                    protected void updateItem(School item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setGraphic(null);
+                        } else {
+                            setText(item.getName());
+                        }
+                    }
+                } ;
+            }
+        };
+
+        this.cbSchool.setButtonCell(schoolCellFactory.call(null));
+        this.cbSchool.setCellFactory(schoolCellFactory);
 
         GluonObservableList<School> mylistSchool = HttpRequests.getAllSchool();
         mylistSchool.setOnSucceeded(connectStateEvent -> {
-
             this.cbSchool.setItems(mylistSchool);
 
-
-            //cbSchool.getSelectionModel().selectFirst();
-            //this.listShcoolAll = (ArrayList<School>) FXCollections.observableArrayList(mylistSchool);
         });
 
         cbSchool.getSelectionModel().selectedItemProperty().addListener((observableValue, o, newStr) -> {
             mySchool = (School) cbSchool.valueProperty().getValue();
-           // System.out.println(mySchool);
             SchoolManagingApplication.setMySchool(mySchool);
             hboxbBtn.setVisible(true);
             lbNameSchool.setText("** "+mySchool.getName()+" **");
@@ -92,32 +106,28 @@ public class AccueilController implements Initializable  {
     private void initializeButtons() {
 
         this.btnCourse.setOnMouseClicked(mouseEvent -> {
-            System.out.println("gestionMatiere");
             SchoolManagingApplication.setScreen("gestionMatiere");
 
         });
         this.btnRoom.setOnMouseClicked(mouseEvent -> {
-            System.out.println("gestionRoom");
             SchoolManagingApplication.setScreen("gestionRoom");
 
         });
         this.btnTeacher.setOnMouseClicked(mouseEvent -> {
-            System.out.println("gestionProf");
             SchoolManagingApplication.setScreen("gestionProf");
 
         });
         this.btnGrade.setOnMouseClicked(mouseEvent -> {
-            System.out.println("gestionClasse");
             SchoolManagingApplication.setScreen("gestionGrade");
 
         });
         this.btnEtablissement.setOnMouseClicked(mouseEvent -> {
             SchoolManagingApplication.setScreen("gestionEtablissement");
-            System.out.println("gestionEtablissement");
+
         });
         this. btnDeco.setOnMouseClicked(mouseEvent -> {
             SchoolManagingApplication.setScreen("userConnect");
-            System.out.println("userConnect");
+
         });
         this.btnUser.setOnMouseClicked(mouseEvent -> {
             SchoolManagingApplication.setScreen("");
