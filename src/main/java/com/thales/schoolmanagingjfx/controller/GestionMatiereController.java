@@ -72,7 +72,7 @@ public class GestionMatiereController implements Initializable {
         btnSup.setOnMouseClicked(mouseEvent -> {
             String id = lbId.getText();
             HttpRequests.deleteCourse(id);
-            SchoolManagingApplication.setScreen("accueil");
+
         });
     }
 
@@ -86,7 +86,7 @@ public class GestionMatiereController implements Initializable {
         nameCourseCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         colorCourseCol.setCellValueFactory(new PropertyValueFactory<>("color"));
 
-        GluonObservableList<Course> gotList = HttpRequests.getAllCourse();
+        GluonObservableList<Course> gotList = HttpRequests.getAllCourse(SchoolManagingApplication.getMySchool().getId());
         gotList.setOnSucceeded(connectStateEvent -> {
             this.courses = FXCollections.observableArrayList(gotList);
             tbView.setItems(this.courses);

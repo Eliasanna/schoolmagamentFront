@@ -95,6 +95,20 @@
                                 </Label>
                             </children>
                         </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="364.0">
+                     <children>
+                        <Label prefHeight="26.0" prefWidth="130.0" text="Nom :">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtName" prefHeight="30.0" prefWidth="250.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="364.0">
                             <children>
                                 <Label prefHeight="26.0" prefWidth="130.0" text="Type :   ">
@@ -112,7 +126,7 @@
                                         <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="tbTel" prefHeight="30.0" prefWidth="250.0">
+                                <TextField fx:id="txtTel" prefHeight="30.0" prefWidth="250.0">
                                     <font>
                                         <Font size="14.0" />
                                     </font>
@@ -126,7 +140,7 @@
                                         <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="tbUrlIm" prefHeight="30.0" prefWidth="250.0">
+                                <TextField fx:id="txtUrlIm" prefHeight="30.0" prefWidth="250.0">
                                     <font>
                                         <Font size="14.0" />
                                     </font>
@@ -140,7 +154,7 @@
                                         <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="tbnbStreat" prefHeight="30.0" prefWidth="46.0">
+                                <TextField fx:id="txtnbStreat" prefHeight="30.0" prefWidth="46.0">
                                     <font>
                                         <Font size="14.0" />
                                     </font>
@@ -150,7 +164,7 @@
                                         <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="tbStreat" prefHeight="30.0" prefWidth="244.0">
+                                <TextField fx:id="txtStreat" prefHeight="30.0" prefWidth="244.0">
                                     <font>
                                         <Font size="14.0" />
                                     </font>
@@ -164,7 +178,7 @@
                                         <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="tbCity" prefHeight="30.0" prefWidth="250.0">
+                                <TextField fx:id="txtCity" prefHeight="30.0" prefWidth="250.0">
                                     <font>
                                         <Font size="14.0" />
                                     </font>
@@ -178,7 +192,7 @@
                                         <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="tbCountry" prefHeight="30.0" prefWidth="250.0">
+                                <TextField fx:id="txtCountry" prefHeight="30.0" prefWidth="250.0">
                                     <font>
                                         <Font size="14.0" />
                                     </font>
@@ -201,7 +215,7 @@
                                     </font>
                                 </Button>
                                 <Pane prefHeight="100.0" prefWidth="40.0" />
-                                <Button fx:id="btnSup" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" text="Supprimer">
+                                <Button fx:id="btnUpdate" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" text="Modifier">
                                     <font>
                                         <Font name="System Bold" size="12.0" />
                                     </font>

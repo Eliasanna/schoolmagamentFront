@@ -7,10 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -60,14 +59,35 @@ public class AccueilController implements Initializable  {
     }
 
     private void initialiseComboBox() {
+        //formate texte de la combobox
+            Callback<ListView<School>, ListCell<School>> schoolCellFactory =
+                    new Callback<ListView<School>, ListCell<School>>() {
+            @Override
+            public ListCell<School> call(ListView<School> l) {
+                return new ListCell<School>() {
 
-        cbSchool.setDisable(false);
+                    @Override
+                    protected void updateItem(School item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setGraphic(null);
+                        } else {
+                            setText(item.getName());
+                        }
+                    }
+                } ;
+            }
+        };
+
+        this.cbSchool.setButtonCell(schoolCellFactory.call(null));
+        this.cbSchool.setCellFactory(schoolCellFactory);
+
+        //cbSchool.setDisable(false);
 
         GluonObservableList<School> mylistSchool = HttpRequests.getAllSchool();
         mylistSchool.setOnSucceeded(connectStateEvent -> {
 
             this.cbSchool.setItems(mylistSchool);
-
 
             //cbSchool.getSelectionModel().selectFirst();
             //this.listShcoolAll = (ArrayList<School>) FXCollections.observableArrayList(mylistSchool);

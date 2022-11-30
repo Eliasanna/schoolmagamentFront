@@ -60,7 +60,7 @@ public class GestionProfController implements Initializable {
         btnSup.setOnMouseClicked(mouseEvent -> {
             //String id = lbId.getText();
             //HttpRequests.deleteCourse(id);
-            SchoolManagingApplication.setScreen("accueil");
+
         });
     }
 
@@ -85,7 +85,7 @@ public class GestionProfController implements Initializable {
         profMatCol.setCellValueFactory(new PropertyValueFactory<>("matiere"));
 
 
-        GluonObservableList<Teacher> gotList = HttpRequests.getAllTeacher();
+        GluonObservableList<Teacher> gotList = HttpRequests.getAllTeacher(SchoolManagingApplication.getMySchool().getId());
         gotList.setOnSucceeded(connectStateEvent -> {
             this.teachers = FXCollections.observableArrayList(gotList);
             tbView.setItems(this.teachers);
