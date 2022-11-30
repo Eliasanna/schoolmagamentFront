@@ -1,6 +1,7 @@
 package com.thales.schoolmanagingjfx.controller;
 
 import com.gluonhq.connect.GluonObservableObject;
+import com.thales.schoolmanagingjfx.SchoolManagingApplication;
 import com.thales.schoolmanagingjfx.model.Address;
 import com.thales.schoolmanagingjfx.model.Course;
 import com.thales.schoolmanagingjfx.model.School;
@@ -64,12 +65,29 @@ public class GestionEtablissementController implements Initializable  {
     public TextField txtName;
     @FXML
     public Button btnUpdate;
+    @FXML
+    public Label lbMessage;
+
+    private School mySchool;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        mySchool= SchoolManagingApplication.getMySchool();
+        lbMessage.setVisible(false);
         setEntete();
         initializeButtons();
         initializeCb();
+        initializeTxt();
+    }
+
+    private void initializeTxt() {
+        lbId.setText(String.valueOf(mySchool.getId()));
+        lbTel.setText(mySchool.getPhoneNumber());
+        lbStreat.setText(mySchool.getAddress().getStreetNumber()+" "+mySchool.getAddress().getStreet());
+        lbCity.setText(mySchool.getAddress().getCity());
+        lbCountry.setText(mySchool.getAddress().getCountry());
+        //TODO afficher l'immage
+        //imgLogo.getImage(mySchool.getLogo());
     }
 
     private void initializeCb() {
@@ -86,10 +104,19 @@ public class GestionEtablissementController implements Initializable  {
     private void initializeButtons() {
         btnClear.setOnMouseClicked(mouseEvent -> {
             lbId.setVisible(false);
-
+            txtCity.clear();
+            txtName.clear();
+            txtCountry.clear();
+            txtTel.clear();
+            txtnbStreat.clear();
+            txtStreat.clear();
+            txtUrlIm.clear();
+            cbType.getSelectionModel().select(0);
+            lbMessage.setVisible(false);
         });
 
         btnAdd.setOnMouseClicked(mouseEvent -> {
+            lbMessage.setVisible(false);
             Address adresse = new Address();
             adresse.setCity(txtCity.getText());
             adresse.setCountry(txtCountry.getText());
@@ -97,7 +124,6 @@ public class GestionEtablissementController implements Initializable  {
             adresse.setStreetNumber(Integer.parseInt(txtnbStreat.getText()));
 
             GluonObservableObject<Address> potentialConnected = HttpRequests.addAddress(adresse);
-
             School mySchool = new School();
             mySchool.setName(txtName.getText());
             mySchool.setType((String) cbType.valueProperty().getValue());
@@ -109,7 +135,11 @@ public class GestionEtablissementController implements Initializable  {
         });
 
         btnUpdate.setOnMouseClicked(mouseEvent -> {
-
+            if(lbId.getText()!=""){
+                String message = "Etablissement inconnu, veuillez l'ajouter";
+                lbMessage.setText(message);
+                lbMessage.setVisible(true);
+            }
         });
     }
 
