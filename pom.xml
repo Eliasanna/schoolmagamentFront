@@ -106,7 +106,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.schoolmanagingjfx/com.thales.schoolmanagingjfx.HelloApplication
+                            <mainClass>com.example.schoolmanagingjfx/com.thales.schoolmanagingjfx.SchoolManagingApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

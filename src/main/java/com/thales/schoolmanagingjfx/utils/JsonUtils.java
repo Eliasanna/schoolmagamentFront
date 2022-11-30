@@ -1,4 +1,4 @@
-package com.thales.reparcar4.utils;
+package com.thales.schoolmanagingjfx.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

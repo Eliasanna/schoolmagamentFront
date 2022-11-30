@@ -11,46 +11,45 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"
-            prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.thales.schoolmanagingjfx.controller.GestionRoomController">
+    <top>
+        <fx:include fx:id="enTete" source="entete.fxml" />
+    </top>
     <center>
         <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
                 <VBox prefHeight="450.0" prefWidth="402.0">
                     <children>
-                        <Label alignment="CENTER" prefHeight="33.0" prefWidth="400.0" text="Liste des salles de classes"
-                               textAlignment="CENTER" textFill="#017e7a">
+                        <Label alignment="CENTER" prefHeight="33.0" prefWidth="400.0" text="Liste des salles de classes" textAlignment="CENTER" textFill="#017e7a">
                             <font>
-                                <Font name="System Bold" size="20.0"/>
+                                <Font name="System Bold" size="20.0" />
                             </font>
                         </Label>
-                        <Pane prefHeight="16.0" prefWidth="402.0" style="-fx-background-color: #e4de9b;"/>
-                        <TableView fx:id="tbViewRoom" prefHeight="373.0" prefWidth="402.0"
-                                   style="-fx-border-color: #017e7a;"/>
-                        <Pane prefHeight="8.0" prefWidth="402.0" style="-fx-background-color: #e4de9b;"/>
+                        <Pane prefHeight="16.0" prefWidth="402.0" style="-fx-background-color: #e4de9b;" />
+                        <TableView fx:id="tbView" prefHeight="373.0" prefWidth="402.0" style="-fx-border-color: #017e7a;" />
+                        <Pane prefHeight="8.0" prefWidth="402.0" style="-fx-background-color: #e4de9b;" />
                     </children>
                 </VBox>
-                <Pane prefHeight="450.0" prefWidth="44.0"/>
+                <Pane prefHeight="450.0" prefWidth="44.0" />
                 <VBox prefHeight="450.0" prefWidth="364.0">
                     <children>
-                        <Label alignment="CENTER" prefHeight="32.0" prefWidth="364.0" text="Créer/Modifier"
-                               textAlignment="CENTER" textFill="#017e7a">
+                        <Label alignment="CENTER" prefHeight="32.0" prefWidth="364.0" text="Créer/Modifier" textAlignment="CENTER" textFill="#017e7a">
                             <font>
-                                <Font name="System Bold" size="20.0"/>
+                                <Font name="System Bold" size="20.0" />
                             </font>
                         </Label>
-                        <Pane prefHeight="8.0" prefWidth="402.0" style="-fx-background-color: #e4de9b;"/>
-                        <Pane prefHeight="21.0" prefWidth="364.0"/>
+                        <Pane prefHeight="8.0" prefWidth="402.0" style="-fx-background-color: #e4de9b;" />
+                        <Pane prefHeight="21.0" prefWidth="364.0" />
                         <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="364.0">
                             <children>
                                 <Label text="ID salle :   ">
                                     <font>
-                                        <Font name="System Bold" size="16.0"/>
+                                        <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="lbIdClassRoom" prefHeight="18.0" prefWidth="186.0" text="ID????">
+                                <Label fx:id="lbId" prefHeight="18.0" prefWidth="186.0" text="ID????">
                                     <font>
-                                        <Font name="System Bold" size="16.0"/>
+                                        <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
                             </children>
@@ -59,12 +58,12 @@
                             <children>
                                 <Label prefHeight="26.0" prefWidth="130.0" text="Nom :   ">
                                     <font>
-                                        <Font name="System Bold" size="16.0"/>
+                                        <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="tbName" prefHeight="30.0" prefWidth="250.0">
+                                <TextField fx:id="txtName" prefHeight="30.0" prefWidth="250.0">
                                     <font>
-                                        <Font size="14.0"/>
+                                        <Font size="14.0" />
                                     </font>
                                 </TextField>
                             </children>
@@ -73,12 +72,12 @@
                             <children>
                                 <Label prefHeight="26.0" prefWidth="130.0" text="Quapacité :   ">
                                     <font>
-                                        <Font name="System Bold" size="16.0"/>
+                                        <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="tbQuapacity" prefHeight="30.0" prefWidth="250.0">
+                                <TextField fx:id="txtQuapacity" prefHeight="30.0" prefWidth="250.0">
                                     <font>
-                                        <Font size="14.0"/>
+                                        <Font size="14.0" />
                                     </font>
                                 </TextField>
                             </children>
@@ -87,50 +86,46 @@
                             <children>
                                 <Label prefHeight="26.0" prefWidth="146.0" text="Matière exclue :   ">
                                     <font>
-                                        <Font name="System Bold" size="16.0"/>
+                                        <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
-                                <ComboBox fx:id="cbExcluCourse" prefHeight="26.0" prefWidth="238.0"/>
+                                <ComboBox fx:id="cbExcluCourse" prefHeight="26.0" prefWidth="238.0" />
                             </children>
                         </HBox>
                         <HBox prefHeight="50.0" prefWidth="364.0">
                             <children>
-                                <Button fx:id="btnAddExclueCourse" mnemonicParsing="false" prefHeight="26.0"
-                                        prefWidth="80.0" text="Ajouter">
+                                <Button fx:id="btnAddExclueCourse" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" text="Ajouter">
                                     <font>
-                                        <Font name="System Bold" size="10.0"/>
+                                        <Font name="System Bold" size="10.0" />
                                     </font>
                                 </Button>
-                                <Pane prefHeight="50.0" prefWidth="52.0"/>
+                                <Pane prefHeight="50.0" prefWidth="52.0" />
                                 <Label fx:id="lbListCourse" prefHeight="18.0" prefWidth="282.0" text="Label">
                                     <font>
-                                        <Font name="System Bold" size="13.0"/>
+                                        <Font name="System Bold" size="13.0" />
                                     </font>
                                 </Label>
                             </children>
                         </HBox>
-                        <Pane prefHeight="30.0" prefWidth="364.0"/>
-                        <Pane prefHeight="8.0" prefWidth="402.0" style="-fx-background-color: #e4de9b;"/>
+                        <Pane prefHeight="30.0" prefWidth="364.0" />
+                        <Pane prefHeight="8.0" prefWidth="402.0" style="-fx-background-color: #e4de9b;" />
                         <HBox alignment="CENTER" prefHeight="39.0" prefWidth="364.0">
                             <children>
-                                <Button fx:id="btnClear" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0"
-                                        text="Clear">
+                                <Button fx:id="btnClear" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" text="Clear">
                                     <font>
-                                        <Font name="System Bold" size="12.0"/>
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </Button>
-                                <Pane prefHeight="86.0" prefWidth="40.0"/>
-                                <Button fx:id="btnAdd" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0"
-                                        text="Ajouter">
+                                <Pane prefHeight="86.0" prefWidth="40.0" />
+                                <Button fx:id="btnAdd" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" text="Ajouter">
                                     <font>
-                                        <Font name="System Bold" size="12.0"/>
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </Button>
-                                <Pane prefHeight="100.0" prefWidth="40.0"/>
-                                <Button fx:id="BtnSup" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0"
-                                        text="Supprimer">
+                                <Pane prefHeight="100.0" prefWidth="40.0" />
+                                <Button fx:id="btnSup" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" text="Supprimer">
                                     <font>
-                                        <Font name="System Bold" size="12.0"/>
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </Button>
                             </children>
@@ -141,15 +136,12 @@
         </HBox>
     </center>
     <left>
-        <Pane prefHeight="450.0" prefWidth="51.0" BorderPane.alignment="CENTER"/>
+        <Pane prefHeight="450.0" prefWidth="51.0" BorderPane.alignment="CENTER" />
     </left>
     <right>
-        <Pane prefHeight="450.0" prefWidth="27.0" BorderPane.alignment="CENTER"/>
+        <Pane prefHeight="450.0" prefWidth="27.0" BorderPane.alignment="CENTER" />
     </right>
-    <top>
-        <Pane prefHeight="100.0" prefWidth="900.0" BorderPane.alignment="CENTER"/>
-    </top>
     <bottom>
-        <Pane prefHeight="20.0" prefWidth="900.0" BorderPane.alignment="CENTER"/>
+        <Pane prefHeight="20.0" prefWidth="900.0" BorderPane.alignment="CENTER" />
     </bottom>
 </BorderPane>

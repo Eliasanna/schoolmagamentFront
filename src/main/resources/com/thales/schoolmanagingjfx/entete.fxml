@@ -9,44 +9,34 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="150.0" prefWidth="900.0" style="-fx-background-color: #017e7a;" xmlns="http://javafx.com/javafx/19"
-      xmlns:fx="http://javafx.com/fxml/1">
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="900.0" style="-fx-background-color: #017e7a;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.thales.schoolmanagingjfx.controller.EnteteController">
     <children>
         <ImageView fx:id="imLogo" fitHeight="153.0" fitWidth="184.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../images/logo.jpg"/>
+                <Image url="@../../../images/logo.jpg" />
             </image>
         </ImageView>
-        <VBox alignment="CENTER" prefHeight="150.0" prefWidth="570.0">
+        <Label fx:id="lbMenu" prefHeight="54.0" prefWidth="503.0" text="Menu ???" textFill="#e4de9b">
+              <font>
+                  <Font name="System Bold" size="37.0" />
+              </font>
+          </Label>
+        <VBox alignment="CENTER" prefHeight="150.0" prefWidth="292.0">
             <children>
-                <Label fx:id="lbName" alignment="TOP_LEFT" prefHeight="46.0" prefWidth="518.0"
-                       text="Nom établissment ???" textFill="WHITE">
+                <Label fx:id="lbName" alignment="TOP_LEFT" prefHeight="46.0" prefWidth="518.0" text="Nom établissment ???" textFill="WHITE">
                     <font>
-                        <Font name="Rockwell Condensed" size="38.0"/>
+                        <Font name="Rockwell Condensed" size="38.0" />
                     </font>
                 </Label>
-                <Pane prefHeight="25.0" prefWidth="482.0"/>
-                <Label fx:id="lbMenu" text="Menu ???" textFill="#e4de9b">
-                    <font>
-                        <Font name="System Bold" size="37.0"/>
-                    </font>
-                </Label>
-            </children>
-        </VBox>
-        <VBox alignment="CENTER" prefHeight="150.0" prefWidth="242.0">
-            <children>
                 <Label fx:id="lbUtilisateur" text="NomUtilisateur" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="18.0"/>
+                        <Font name="System Bold" size="18.0" />
                     </font>
                 </Label>
-                <Pane prefHeight="18.0" prefWidth="210.0"/>
-                <Button fx:id="btnBackMenu" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                        style="-fx-background-color: #e4de9b;" text="Menu">
+                <Pane prefHeight="18.0" prefWidth="210.0" />
+                <Button fx:id="btnBackMenu" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-background-color: #e4de9b;" text="Menu">
                     <font>
-                        <Font name="System Bold" size="20.0"/>
+                        <Font name="System Bold" size="20.0" />
                     </font>
                 </Button>
             </children>

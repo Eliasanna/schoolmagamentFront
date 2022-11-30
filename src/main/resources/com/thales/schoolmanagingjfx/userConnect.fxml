@@ -9,56 +9,67 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-            prefWidth="600.0" style="-fx-background-color: #017e7a;" xmlns="http://javafx.com/javafx/19"
-            xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #017e7a;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.thales.schoolmanagingjfx.controller.UserConnectController">
     <center>
-        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+        <VBox alignment="TOP_CENTER" prefHeight="409.0" prefWidth="571.0" BorderPane.alignment="CENTER">
             <children>
-                <Pane prefHeight="50.0" prefWidth="492.0"/>
+                <Pane prefHeight="50.0" prefWidth="492.0" />
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
                         <Label text="Utilisateur" textFill="#f7f7f7">
                             <font>
-                                <Font name="System Bold" size="17.0"/>
+                                <Font name="System Bold" size="20.0" />
                             </font>
                         </Label>
-                        <Pane prefHeight="100.0" prefWidth="76.0"/>
-                        <TextField/>
+                        <Pane prefHeight="100.0" prefWidth="76.0" />
+                        <TextField fx:id="txtUser" prefHeight="30.0" prefWidth="190.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
                     </children>
                 </HBox>
-                <HBox prefHeight="100.0" prefWidth="200.0">
+                <HBox prefHeight="100.0" prefWidth="437.0">
                     <children>
                         <Label text="Mot de passe" textFill="WHITE">
                             <font>
-                                <Font name="System Bold" size="17.0"/>
+                                <Font name="System Bold" size="20.0" />
                             </font>
                         </Label>
-                        <Pane prefHeight="100.0" prefWidth="50.0"/>
-                        <TextField/>
+                        <Pane prefHeight="100.0" prefWidth="50.0" />
+                        <TextField fx:id="txtPassWord" prefHeight="30.0" prefWidth="187.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
                     </children>
                 </HBox>
-                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="38.0"
-                        prefWidth="100.0" style="-fx-background-color: #e4de9b;" text="Connexion">
+                <Button fx:id="btnConnect" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" style="-fx-background-color: #e4de9b;" text="Connexion">
                     <font>
-                        <Font name="System Bold" size="15.0"/>
+                        <Font name="System Bold" size="15.0" />
                     </font>
                 </Button>
+            <Pane prefHeight="78.0" prefWidth="363.0">
+               <children>
+                  <Label fx:id="lbError" alignment="CENTER" contentDisplay="CENTER" layoutX="-48.0" layoutY="39.0" prefHeight="21.0" prefWidth="454.0" text="Erreur de connexion, identifiants inconnus" textFill="#ef0606" visible="false">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
             </children>
         </VBox>
     </center>
     <top>
         <Label text="School Manager" textFill="#e4de9bfa" BorderPane.alignment="CENTER">
             <font>
-                <Font name="Rockwell Condensed" size="75.0"/>
+                <Font name="Rockwell Condensed" size="75.0" />
             </font>
         </Label>
     </top>
     <left>
-        <Pane prefHeight="309.0" prefWidth="108.0" BorderPane.alignment="CENTER"/>
+        <Pane prefHeight="409.0" prefWidth="254.0" BorderPane.alignment="CENTER" />
     </left>
     <right>
-        <Pane prefHeight="309.0" prefWidth="120.0" BorderPane.alignment="CENTER"/>
+        <Pane prefHeight="409.0" prefWidth="283.0" BorderPane.alignment="CENTER" />
     </right>
 </BorderPane>

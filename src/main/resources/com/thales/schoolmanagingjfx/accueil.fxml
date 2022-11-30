@@ -9,98 +9,88 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"
-            prefWidth="900.0" style="-fx-background-color: #017e7a;" xmlns="http://javafx.com/javafx/19"
-            xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #017e7a;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.thales.schoolmanagingjfx.controller.AccueilController">
     <center>
         <VBox alignment="TOP_CENTER" prefHeight="409.0" prefWidth="489.0" BorderPane.alignment="CENTER">
             <children>
-                <Pane prefHeight="50.0" prefWidth="492.0"/>
-                <BorderPane prefHeight="246.0" prefWidth="705.0">
-                    <center>
-                        <VBox prefHeight="200.0" prefWidth="100.0"
-                              style="-fx-border-color: #e4de9b; -fx-border-style: blod;" BorderPane.alignment="CENTER">
-                            <children>
-                                <HBox alignment="CENTER" prefHeight="80.0" prefWidth="703.0">
-                                    <children>
-                                        <Label alignment="CENTER" contentDisplay="CENTER" text="Etablissement à gérer"
-                                               textFill="WHITE">
-                                            <font>
-                                                <Font name="System Bold" size="20.0"/>
-                                            </font>
-                                        </Label>
-                                        <Pane prefHeight="122.0" prefWidth="50.0"/>
-                                        <ComboBox fx:id="cbSchool" prefWidth="150.0"/>
-                                    </children>
-                                </HBox>
-                                <Pane prefHeight="69.0" prefWidth="703.0">
-                                    <children>
-                                        <Label fx:id="lbNameSchool" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="2.0" layoutY="-12.0" prefHeight="60.0" prefWidth="701.0"
-                                               text="Etablissement??" textFill="#e4de9bfa" visible="false">
-                                            <font>
-                                                <Font name="Rockwell Condensed" size="49.0"/>
-                                            </font>
-                                        </Label>
-                                    </children>
-                                </Pane>
-                                <HBox alignment="CENTER" prefHeight="126.0" prefWidth="703.0">
-                                    <children>
-                                        <Pane prefHeight="100.0" prefWidth="26.0"/>
-                                        <Button fx:id="btnCourse" alignment="CENTER" contentDisplay="CENTER"
-                                                mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0"
-                                                style="-fx-background-color: #e4de9b;" text="Matières">
-                                            <font>
-                                                <Font name="System Bold" size="15.0"/>
-                                            </font>
-                                        </Button>
-                                        <Pane prefHeight="100.0" prefWidth="20.0"/>
-                                        <Button fx:id="btnRoom" alignment="CENTER" contentDisplay="CENTER"
-                                                mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0"
-                                                style="-fx-background-color: #e4de9b;" text="Salle de classes">
-                                            <font>
-                                                <Font name="System Bold" size="15.0"/>
-                                            </font>
-                                        </Button>
-                                        <Pane prefHeight="106.0" prefWidth="19.0"/>
-                                        <Button fx:id="btnTeacher" alignment="CENTER" contentDisplay="CENTER"
-                                                mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0"
-                                                style="-fx-background-color: #e4de9b;" text="Professeurs">
-                                            <font>
-                                                <Font name="System Bold" size="15.0"/>
-                                            </font>
-                                        </Button>
-                                        <Pane prefHeight="100.0" prefWidth="20.0"/>
-                                        <Button fx:id="btnGrade" alignment="CENTER" contentDisplay="CENTER"
-                                                mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0"
-                                                style="-fx-background-color: #e4de9b;" text="Classe">
-                                            <font>
-                                                <Font name="System Bold" size="15.0"/>
-                                            </font>
-                                        </Button>
-                                        <Pane prefHeight="118.0" prefWidth="26.0"/>
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
-                    </center>
-                </BorderPane>
-                <Pane prefHeight="24.0" prefWidth="705.0"/>
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="900.0">
+                    <children>
+                        <Label text="Bienvenu" textFill="#f7f7f7">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                        </Label>
+                        <Pane prefHeight="52.0" prefWidth="52.0" />
+                        <Label fx:id="lbLogin" alignment="CENTER" prefHeight="30.0" prefWidth="236.0" textFill="#f7f7f7">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                        </Label>
+                        <Pane prefHeight="100.0" prefWidth="41.0" />
+                    </children>
+                </HBox>
+                    <HBox alignment="CENTER" prefHeight="80.0" prefWidth="703.0">
+                        <children>
+                            <Label alignment="CENTER" contentDisplay="CENTER" text="Etablissement à gérer" textFill="WHITE">
+                                <font>
+                                    <Font name="System Bold" size="20.0" />
+                                </font>
+                            </Label>
+                            <Pane prefHeight="122.0" prefWidth="50.0" />
+                  <ComboBox fx:id="cbSchool" prefHeight="26.0" prefWidth="268.0" />
+                        </children>
+                    </HBox>
+            <Label fx:id="lbNameSchool" text="Label" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Label>
+                    <HBox fx:id="hboxbBtn" alignment="CENTER" prefHeight="126.0" prefWidth="703.0" visible="false">
+                        <children>
+                            <Pane prefHeight="100.0" prefWidth="26.0" />
+                            <Button fx:id="btnCourse" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #e4de9b;" text="Matières">
+                                <font>
+                                    <Font name="System Bold" size="15.0" />
+                                </font>
+                            </Button>
+                            <Pane prefHeight="100.0" prefWidth="20.0" />
+                            <Button fx:id="btnRoom" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #e4de9b;" text="Salle de classes">
+                                <font>
+                                    <Font name="System Bold" size="15.0" />
+                                </font>
+                            </Button>
+                            <Pane prefHeight="106.0" prefWidth="19.0" />
+                            <Button fx:id="btnTeacher" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #e4de9b;" text="Professeurs">
+                                <font>
+                                    <Font name="System Bold" size="15.0" />
+                                </font>
+                            </Button>
+                            <Pane prefHeight="100.0" prefWidth="20.0" />
+                            <Button fx:id="btnGrade" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #e4de9b;" text="Classe">
+                                <font>
+                                    <Font name="System Bold" size="15.0" />
+                                </font>
+                            </Button>
+                  <Pane prefHeight="100.0" prefWidth="20.0" />
+                  <Button fx:id="btnEtablissement" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #e4de9b;" text="Etablissement">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Button>
+                            <Pane prefHeight="118.0" prefWidth="26.0" />
+                        </children>
+                    </HBox>
                 <HBox alignment="CENTER" prefHeight="70.0" prefWidth="705.0">
                     <children>
-                        <Button fx:id="btnDeco" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                                prefHeight="38.0" prefWidth="126.0" style="-fx-background-color: #e4de9b;"
-                                text="Deconnexion">
+                        <Button fx:id="btnDeco" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="126.0" style="-fx-background-color: #e4de9b;" text="Deconnexion">
                             <font>
-                                <Font name="System Bold" size="15.0"/>
+                                <Font name="System Bold" size="15.0" />
                             </font>
                         </Button>
-                        <Pane prefHeight="65.0" prefWidth="19.0"/>
-                        <Button fx:id="btnUser" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                                prefHeight="38.0" prefWidth="164.0" style="-fx-background-color: #e4de9b;"
-                                text="Gestion Utilisateurs">
+                        <Pane prefHeight="65.0" prefWidth="19.0" />
+                        <Button fx:id="btnUser" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="164.0" style="-fx-background-color: #e4de9b;" text="Gestion Utilisateurs">
                             <font>
-                                <Font name="System Bold" size="15.0"/>
+                                <Font name="System Bold" size="15.0" />
                             </font>
                         </Button>
                     </children>
@@ -109,41 +99,16 @@
         </VBox>
     </center>
     <top>
-        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="91.0" prefWidth="886.0" text="School Manager"
-               textFill="#e4de9bfa" underline="true" BorderPane.alignment="CENTER">
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="91.0" prefWidth="886.0" text="School Manager" textFill="#e4de9bfa" underline="true" BorderPane.alignment="CENTER">
             <font>
-                <Font name="Rockwell Condensed" size="75.0"/>
+                <Font name="Rockwell Condensed" size="75.0" />
             </font>
         </Label>
     </top>
     <left>
-        <Pane prefHeight="409.0" prefWidth="75.0" BorderPane.alignment="CENTER">
-            <children>
-                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="900.0">
-                    <children>
-                        <Label text="Bienvenu" textFill="#f7f7f7">
-                            <font>
-                                <Font name="System Bold" size="20.0"/>
-                            </font>
-                        </Label>
-                        <Pane prefHeight="52.0" prefWidth="52.0"/>
-                        <Label text="??????" textFill="#f7f7f7">
-                            <font>
-                                <Font name="System Bold" size="20.0"/>
-                            </font>
-                        </Label>
-                        <Pane prefHeight="100.0" prefWidth="41.0"/>
-                        <Label text="??????" textFill="#f7f7f7">
-                            <font>
-                                <Font name="System Bold" size="20.0"/>
-                            </font>
-                        </Label>
-                    </children>
-                </HBox>
-            </children>
-        </Pane>
+        <Pane prefHeight="409.0" prefWidth="75.0" BorderPane.alignment="CENTER" />
     </left>
     <right>
-        <Pane prefHeight="309.0" prefWidth="120.0" visible="false" BorderPane.alignment="CENTER"/>
+        <Pane prefHeight="309.0" prefWidth="120.0" visible="false" BorderPane.alignment="CENTER" />
     </right>
 </BorderPane>
