@@ -82,20 +82,14 @@ public class AccueilController implements Initializable  {
         this.cbSchool.setButtonCell(schoolCellFactory.call(null));
         this.cbSchool.setCellFactory(schoolCellFactory);
 
-        //cbSchool.setDisable(false);
-
         GluonObservableList<School> mylistSchool = HttpRequests.getAllSchool();
         mylistSchool.setOnSucceeded(connectStateEvent -> {
-
             this.cbSchool.setItems(mylistSchool);
 
-            //cbSchool.getSelectionModel().selectFirst();
-            //this.listShcoolAll = (ArrayList<School>) FXCollections.observableArrayList(mylistSchool);
         });
 
         cbSchool.getSelectionModel().selectedItemProperty().addListener((observableValue, o, newStr) -> {
             mySchool = (School) cbSchool.valueProperty().getValue();
-           // System.out.println(mySchool);
             SchoolManagingApplication.setMySchool(mySchool);
             hboxbBtn.setVisible(true);
             lbNameSchool.setText("** "+mySchool.getName()+" **");
@@ -112,32 +106,28 @@ public class AccueilController implements Initializable  {
     private void initializeButtons() {
 
         this.btnCourse.setOnMouseClicked(mouseEvent -> {
-            System.out.println("gestionMatiere");
             SchoolManagingApplication.setScreen("gestionMatiere");
 
         });
         this.btnRoom.setOnMouseClicked(mouseEvent -> {
-            System.out.println("gestionRoom");
             SchoolManagingApplication.setScreen("gestionRoom");
 
         });
         this.btnTeacher.setOnMouseClicked(mouseEvent -> {
-            System.out.println("gestionProf");
             SchoolManagingApplication.setScreen("gestionProf");
 
         });
         this.btnGrade.setOnMouseClicked(mouseEvent -> {
-            System.out.println("gestionClasse");
             SchoolManagingApplication.setScreen("gestionGrade");
 
         });
         this.btnEtablissement.setOnMouseClicked(mouseEvent -> {
             SchoolManagingApplication.setScreen("gestionEtablissement");
-            System.out.println("gestionEtablissement");
+
         });
         this. btnDeco.setOnMouseClicked(mouseEvent -> {
             SchoolManagingApplication.setScreen("userConnect");
-            System.out.println("userConnect");
+
         });
         this.btnUser.setOnMouseClicked(mouseEvent -> {
             SchoolManagingApplication.setScreen("");
