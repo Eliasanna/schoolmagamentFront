@@ -130,7 +130,7 @@ public class AccueilController implements Initializable  {
 
         });
         this.btnUser.setOnMouseClicked(mouseEvent -> {
-            SchoolManagingApplication.setScreen("");
+            SchoolManagingApplication.setScreen("gestionUser");
         });
     }
 
