@@ -235,6 +235,9 @@
         <Pane prefHeight="450.0" prefWidth="27.0" BorderPane.alignment="CENTER" />
     </right>
     <bottom>
-        <Pane prefHeight="20.0" prefWidth="900.0" BorderPane.alignment="CENTER" />
+        <Pane prefHeight="20.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lbMessage" layoutX="517.0" layoutY="2.0" prefHeight="17.0" prefWidth="320.0" text="Label" visible="false" />
+         </children></Pane>
     </bottom>
 </BorderPane>

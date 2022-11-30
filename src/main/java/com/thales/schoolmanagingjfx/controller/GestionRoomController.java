@@ -28,7 +28,6 @@ public class GestionRoomController implements Initializable {
     public HBox enTete;
     @FXML
     public TableView tbView;
-
     @FXML
     public TextField txtName;
     @FXML
@@ -45,6 +44,7 @@ public class GestionRoomController implements Initializable {
     public Button btnAdd;
     @FXML
     public Button btnSup;
+    @FXML
     public Label lbId;
 
     private ObjectProperty<ClassRoom> selectedClassRoom = new SimpleObjectProperty<ClassRoom>();
@@ -92,7 +92,6 @@ public class GestionRoomController implements Initializable {
 
         this.cbExcluCourse.setButtonCell(roomCellFactory.call(null));
         this.cbExcluCourse.setCellFactory(roomCellFactory);
-
     }
 
 
@@ -107,9 +106,9 @@ public class GestionRoomController implements Initializable {
             ClassRoom myClassRoom = new ClassRoom();
             myClassRoom.setName(txtName.getText());
             myClassRoom.setCapacity(Integer.parseInt(txtQuapacity.getText()));
-
             //TODO school
             //myCourse.setSchool(AccueilController.getSchool());
+
             GluonObservableObject<ClassRoom> PotentialConnected = HttpRequests.addClassRoom(myClassRoom);
         });
 
@@ -150,6 +149,6 @@ public class GestionRoomController implements Initializable {
     }
     private void setEntete(){
         Label title = (Label) enTete.getChildren().get(1);
-        title.setText("  Gestion des salles de classe  ");
+        title.setText("  Gestion des salles  ");
     }
 }

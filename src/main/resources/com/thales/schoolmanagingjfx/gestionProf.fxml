@@ -46,7 +46,7 @@
                                         <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="lbIdCourse" prefHeight="18.0" prefWidth="186.0" text="ID????" visible="false">
+                                <Label fx:id="lbId" prefHeight="18.0" prefWidth="186.0" text="ID????" visible="false">
                                     <font>
                                         <Font name="System Bold" size="16.0" />
                                     </font>

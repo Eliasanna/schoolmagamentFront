@@ -16,9 +16,9 @@
                 <Image url="@../../../images/logo.jpg" />
             </image>
         </ImageView>
-        <Label fx:id="lbMenu" prefHeight="54.0" prefWidth="503.0" text="Menu ???" textFill="#e4de9b">
+        <Label fx:id="lbMenu" prefHeight="54.0" prefWidth="504.0" text="Menu ???" textFill="#e4de9b">
               <font>
-                  <Font name="System Bold" size="37.0" />
+                  <Font name="System Bold" size="35.0" />
               </font>
           </Label>
         <VBox alignment="CENTER" prefHeight="150.0" prefWidth="292.0">
