@@ -5,6 +5,7 @@ import com.gluonhq.connect.GluonObservableObject;
 import com.thales.schoolmanagingjfx.SchoolManagingApplication;
 import com.thales.schoolmanagingjfx.model.Course;
 import com.thales.schoolmanagingjfx.model.Grade;
+import com.thales.schoolmanagingjfx.model.School;
 import com.thales.schoolmanagingjfx.utils.HttpRequests;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -37,6 +38,7 @@ public class GestionMatiereController implements Initializable {
     public Button btnSup;
     @FXML
     public HBox enTete;
+    private School school = SchoolManagingApplication.getMySchool();
 
     private ObjectProperty<Course> selectedCourse = new SimpleObjectProperty<Course>();
 
@@ -44,8 +46,16 @@ public class GestionMatiereController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        lbId.setVisible(false);
         setEntete();
+        SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
+            this.school = SchoolManagingApplication.getMySchool();
+            lbId.setVisible(false);
+            initializeTableView();
+            initializeButtons();
+            initializeSelection();
+        });
+
+        lbId.setVisible(false);
         initializeTableView();
         initializeButtons();
         initializeSelection();
@@ -63,20 +73,16 @@ public class GestionMatiereController implements Initializable {
             Course myCourse = new Course();
             myCourse.setColor(String.valueOf(cpColor.getValue()));
             myCourse.setName(tbName.getText());
-            myCourse.setSchool(SchoolManagingApplication.getMySchool());
+            myCourse.setSchool(school);
 
             GluonObservableObject<Course> potentialConnected = HttpRequests.addCourse(myCourse);
             potentialConnected.setOnFailed(connectStateEvent -> {
-                System.out.println("je suis dans le echec");
-                System.out.println(connectStateEvent);
                 courses.add(myCourse);
                 chargeListe();
             });
             potentialConnected.setOnSucceeded(connectStateEvent -> {
-                System.out.println("je suis dans le setOnSucceeded");
 
             });
-
         });
 
         btnSup.setOnMouseClicked(mouseEvent -> {
@@ -92,18 +98,19 @@ public class GestionMatiereController implements Initializable {
         TableColumn<Course, String> colorCourseCol = new TableColumn<>("Couleur");
 
         tbView.getColumns().addAll(idCourseCol,nameCourseCol,colorCourseCol);
-        //tbView.getColumns().addAll(nameCourseCol,colorCourseCol);
         idCourseCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameCourseCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         colorCourseCol.setCellValueFactory(new PropertyValueFactory<>("color"));
+
         chargeListe();
+
         tbView.getSelectionModel().selectedItemProperty().addListener((observableValue, o, t1) -> {
             selectedCourse.setValue((Course) t1);
         });
     }
 
     private void chargeListe() {
-        GluonObservableList<Course> gotList = HttpRequests.getAllCourse(SchoolManagingApplication.getMySchool().getId());
+        GluonObservableList<Course> gotList = HttpRequests.getAllCourse(school.getId());
         gotList.setOnSucceeded(connectStateEvent -> {
             this.courses = FXCollections.observableArrayList(gotList);
             tbView.setItems(this.courses);
@@ -123,7 +130,8 @@ public class GestionMatiereController implements Initializable {
             lbId.setVisible(true);
             this.tbName.setText(course1.getName());
             String color = course1.getColor();
-            cpColor.setValue(Color.valueOf(color));}
+            cpColor.setValue(Color.valueOf(color));
+            }
         });
     }
     private void setEntete(){

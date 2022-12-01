@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -39,6 +40,7 @@ public class GestionGradeController implements Initializable  {
     public Button btnAdd;
     @FXML
     public Button btnSup;
+    private School school = SchoolManagingApplication.getMySchool();
     public ComboBox cbListProf;
 
     private ObjectProperty<Grade> selectedGrade = new SimpleObjectProperty<Grade>();
@@ -51,20 +53,26 @@ public class GestionGradeController implements Initializable  {
         initializeButtons();
         initializeTableView();
         initializeSelection();
+        SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
+            this.school = SchoolManagingApplication.getMySchool();
+            initializeButtons();
+            initializeTableView();
+            initializeSelection();
+        });
+
     }
 
     private void initializeTableView() {
-        //TableColumn<Grade, String> idGradeCol = new TableColumn<>("Identifiant");
+        TableColumn<Grade, String> idGradeCol = new TableColumn<>("Identifiant");
         TableColumn<Grade, String> nameGradeCol = new TableColumn<>("Nom");
         TableColumn<Grade, String> sectionGradeCol = new TableColumn<>("Section");
         TableColumn<Grade,String> profGradeCol = new TableColumn<>("Prof principal");
 
-        //tbView.getColumns().addAll(idGradeCol,nameGradeCol,sectionGradeCol,profGradeCol);
-        tbView.getColumns().addAll(nameGradeCol,sectionGradeCol,profGradeCol);
-        //idGradeCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tbView.getColumns().addAll(idGradeCol,nameGradeCol,sectionGradeCol,profGradeCol);
+
+        idGradeCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameGradeCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         sectionGradeCol.setCellValueFactory(new PropertyValueFactory<>("section"));
-        //profGradeCol.setCellValueFactory(new PropertyValueFactory<Teacher,String>("teacher"));
 
         profGradeCol.setCellValueFactory(teacherStringCellDataFeatures -> {
             if(teacherStringCellDataFeatures.getValue().getMainTeacher()==null){
@@ -75,14 +83,18 @@ public class GestionGradeController implements Initializable  {
             return new SimpleStringProperty(teacherName);
         });
 
-        GluonObservableList<Grade> gotList = HttpRequests.getAllGrade(SchoolManagingApplication.getMySchool().getId());
-        gotList.setOnSucceeded(connectStateEvent -> {
-            this.grades = FXCollections.observableArrayList(gotList);
-            tbView.setItems(this.grades);
-        });
+        chargeListe();
 
         tbView.getSelectionModel().selectedItemProperty().addListener((observableValue, o, t1) -> {
             selectedGrade.setValue((Grade) t1);
+        });
+    }
+
+    private void chargeListe() {
+        GluonObservableList<Grade> gotList = HttpRequests.getAllGrade(school.getId());
+        gotList.setOnSucceeded(connectStateEvent -> {
+            this.grades = FXCollections.observableArrayList(gotList);
+            tbView.setItems(this.grades);
         });
     }
 
@@ -91,32 +103,45 @@ public class GestionGradeController implements Initializable  {
             lbId.setVisible(false);
             tbName.clear();
             tbSection.clear();
-
         });
 
         btnAdd.setOnMouseClicked(mouseEvent -> {
             Grade myGrade= new Grade();
             myGrade.setName(tbName.getText());
             myGrade.setSection(tbSection.getText());
-            myGrade.setSchool(SchoolManagingApplication.getMySchool());
+            myGrade.setSchool(school);
 
-            GluonObservableObject<Grade> PotentialConnected = HttpRequests.addGrade(myGrade);
+            GluonObservableObject<Grade> potentialConnected = HttpRequests.addGrade(myGrade);
+            potentialConnected.setOnFailed(connectStateEvent -> {
+                grades.add(myGrade);
+                chargeListe();
+            });
+            potentialConnected.setOnSucceeded(connectStateEvent -> {
+
+            });
         });
 
         btnSup.setOnMouseClicked(mouseEvent -> {
             String id = lbId.getText();
             HttpRequests.deleteGrade(id);
-
+            chargeListe();
         });
     }
 
     private void initializeSelection() {
         this.selectedGrade.addListener((observableValue, grade, grade1)-> {
+            if(grade1==null){
+                lbId.setText("");
+                lbId.setVisible(false);
+                tbName.clear();
+                tbSection.clear();
+            }
+            else {
             this.lbId.setText(String.valueOf(grade1.getId()));
             lbId.setVisible(true);
             this.tbName.setText(grade1.getName());
             this.tbSection.setText(grade1.getSection());
-
+            }
         });
     }
 

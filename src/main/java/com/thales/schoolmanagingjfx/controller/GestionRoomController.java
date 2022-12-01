@@ -16,11 +16,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class GestionRoomController implements Initializable {
@@ -31,7 +29,7 @@ public class GestionRoomController implements Initializable {
     @FXML
     public TextField txtName;
     @FXML
-    public TextField txtQuapacity;
+    public TextField txtCapacity;
     @FXML
     public ComboBox cbExcluCourse;
     @FXML
@@ -46,6 +44,7 @@ public class GestionRoomController implements Initializable {
     public Button btnSup;
     @FXML
     public Label lbId;
+    private School school = SchoolManagingApplication.getMySchool();
 
     private ObjectProperty<ClassRoom> selectedClassRoom = new SimpleObjectProperty<ClassRoom>();
 
@@ -56,6 +55,14 @@ public class GestionRoomController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setEntete();
+        SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
+            this.school = SchoolManagingApplication.getMySchool();
+            initializecb();
+            initializeTableView();
+            initializeButtons();
+            initializeSelection();
+            lbId.setVisible(false);
+        });
         initializecb();
         initializeTableView();
         initializeButtons();
@@ -64,9 +71,8 @@ public class GestionRoomController implements Initializable {
     }
 
     private void initializecb() {
-
         //recupere liste des courses
-        GluonObservableList<Course> listCourse = HttpRequests.getAllCourse(SchoolManagingApplication.getMySchool().getId());
+        GluonObservableList<Course> listCourse = HttpRequests.getAllCourse(school.getId());
         listCourse.setOnSucceeded(connectStateEvent -> {
             this.cbExcluCourse.setItems(listCourse);
         });
@@ -100,14 +106,14 @@ public class GestionRoomController implements Initializable {
         btnClear.setOnMouseClicked(mouseEvent -> {
             lbId.setVisible(false);
             txtName.clear();
-            txtQuapacity.clear();
+            txtCapacity.clear();
         });
 
         btnAdd.setOnMouseClicked(mouseEvent -> {
             ClassRoom myClassRoom = new ClassRoom();
             myClassRoom.setName(txtName.getText());
-            myClassRoom.setCapacity(Integer.parseInt(txtQuapacity.getText()));
-            myClassRoom.setSchool(SchoolManagingApplication.getMySchool());
+            myClassRoom.setCapacity(Integer.parseInt(txtCapacity.getText()));
+            myClassRoom.setSchool(school);
 
             GluonObservableObject<ClassRoom> PotentialConnected = HttpRequests.addClassRoom(myClassRoom);
             classRoomss.add(myClassRoom);
@@ -119,16 +125,16 @@ public class GestionRoomController implements Initializable {
         });
     }
     private void initializeTableView() {
-        //TableColumn<ClassRoom, String> idRoomCol = new TableColumn<>("Identifiant");
+        TableColumn<ClassRoom, String> idRoomCol = new TableColumn<>("Identifiant");
         TableColumn<ClassRoom, String> nameRoomCol = new TableColumn<>("Nom");
         TableColumn<ClassRoom, String> capRommCol = new TableColumn<>("Capacité");
-        tbView.getColumns().addAll(nameRoomCol,capRommCol);
-        //tbView.getColumns().addAll(idRoomCol,nameRoomCol,capRommCol);
-        //idRoomCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        tbView.getColumns().addAll(idRoomCol,nameRoomCol,capRommCol);
+        idRoomCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameRoomCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         capRommCol.setCellValueFactory(new PropertyValueFactory<>("capacity"));
 
-        GluonObservableList<ClassRoom> gotList = HttpRequests.getAllClassRoom(SchoolManagingApplication.getMySchool().getId());
+        GluonObservableList<ClassRoom> gotList = HttpRequests.getAllClassRoom(school.getId());
         gotList.setOnSucceeded(connectStateEvent -> {
             this.classRoomss = FXCollections.observableArrayList(gotList);
             tbView.setItems(this.classRoomss);
@@ -144,7 +150,7 @@ public class GestionRoomController implements Initializable {
             this.lbId.setText(String.valueOf(classRoom1.getId()));
             lbId.setVisible(true);
             this.txtName.setText(classRoom1.getName());
-            this.txtQuapacity.setText(String.valueOf(classRoom1.getCapacity()));
+            this.txtCapacity.setText(String.valueOf(classRoom1.getCapacity()));
             this.lbListCourse.setText(listCourseExclue.toString());
         });
     }

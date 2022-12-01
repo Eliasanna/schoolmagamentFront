@@ -3,6 +3,7 @@ import com.gluonhq.connect.GluonObservableList;
 import com.thales.schoolmanagingjfx.SchoolManagingApplication;
 import com.thales.schoolmanagingjfx.model.School;
 import com.thales.schoolmanagingjfx.utils.HttpRequests;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,7 +39,7 @@ public class AccueilController implements Initializable  {
     public Label lbLogin;
 
     private School mySchool;
-
+    public Observable mySchoolO;
 
     public School getMySchool() {
         return mySchool;
@@ -90,10 +91,12 @@ public class AccueilController implements Initializable  {
 
         cbSchool.getSelectionModel().selectedItemProperty().addListener((observableValue, o, newStr) -> {
             mySchool = (School) cbSchool.valueProperty().getValue();
+            System.out.println(mySchool);
             SchoolManagingApplication.setMySchool(mySchool);
             hboxbBtn.setVisible(true);
             lbNameSchool.setText("** "+mySchool.getName()+" **");
             lbNameSchool.setVisible(true);
+
         });
     }
 

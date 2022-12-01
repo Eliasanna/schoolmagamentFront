@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
@@ -68,26 +69,32 @@ public class GestionEtablissementController implements Initializable  {
     @FXML
     public Label lbMessage;
 
-    private School mySchool;
+    private School school = SchoolManagingApplication.getMySchool();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        mySchool= SchoolManagingApplication.getMySchool();
-        lbMessage.setVisible(false);
         setEntete();
+        SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
+            initializeButtons();
+            initializeCb();
+            initializeTxt();
+        });
+
+        lbMessage.setVisible(false);
         initializeButtons();
         initializeCb();
         initializeTxt();
     }
 
     private void initializeTxt() {
-        lbId.setText(String.valueOf(mySchool.getId()));
-        lbTel.setText(mySchool.getPhoneNumber());
-        lbStreat.setText(mySchool.getAddress().getStreetNumber()+" "+mySchool.getAddress().getStreet());
-        lbCity.setText(mySchool.getAddress().getCity());
-        lbCountry.setText(mySchool.getAddress().getCountry());
-        //TODO afficher l'immage
-        //imgLogo.getImage(mySchool.getLogo());
+        lbId.setText(String.valueOf(school.getId()));
+        lbTel.setText(school.getPhoneNumber());
+        lbStreat.setText(school.getAddress().getStreetNumber()+" "+school.getAddress().getStreet());
+        lbCity.setText(school.getAddress().getCity());
+        lbCountry.setText(school.getAddress().getCountry());
+        String imageURL="C:\\Users\\celin\\IdeaProjects\\schoolManagingJFx\\src\\main\\resources\\images\\"+SchoolManagingApplication.getMySchool().getLogo()+".jpg";
+        Image logo = new Image(imageURL);
+        imgLogo.setImage(logo);
     }
 
     private void initializeCb() {

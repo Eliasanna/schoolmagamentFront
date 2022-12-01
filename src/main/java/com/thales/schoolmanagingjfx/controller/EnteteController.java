@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.net.URL;
@@ -24,8 +25,19 @@ public class EnteteController implements Initializable  {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         initializetxt();
         initializeButtons();
+        initializeImage();
+    }
+
+    private void initializeImage() {
+        //String imageURL="@../../../images/"+SchoolManagingApplication.getMySchool().getLogo()+".jpg";
+       //System.out.println(imageURL);
+         String imageURL="C:\\Users\\celin\\IdeaProjects\\schoolManagingJFx\\src\\main\\resources\\images\\"+SchoolManagingApplication.getMySchool().getLogo()+".jpg";
+        Image logo = new Image(imageURL);
+        imLogo.setImage(logo);
+
     }
 
     private void initializeButtons() {
@@ -37,6 +49,9 @@ public class EnteteController implements Initializable  {
     private void initializetxt() {
         this.lbUtilisateur.setText(SchoolManagingApplication.getUser().getLogin());
         this.lbName.setText(SchoolManagingApplication.getMySchool().getName());
-        //TODO le titre du menu
+        SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
+                    this.lbName.setText(SchoolManagingApplication.getMySchool().getName());
+                });
+
     }
 }

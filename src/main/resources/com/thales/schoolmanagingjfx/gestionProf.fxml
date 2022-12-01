@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -74,11 +73,11 @@
                                         <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="tbLName" prefHeight="30.0" prefWidth="250.0">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                </TextField>
+                        <TextField fx:id="txtLName" prefHeight="30.0" prefWidth="250.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
                             </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="364.0">
@@ -88,7 +87,11 @@
                                         <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
-                                <DatePicker fx:id="dpBirthDate" />
+                                <TextField fx:id="txtDate" prefHeight="30.0" prefWidth="250.0">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </TextField>
                             </children>
                         </HBox>
                         <HBox prefHeight="36.0" prefWidth="364.0">

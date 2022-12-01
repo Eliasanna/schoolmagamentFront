@@ -13,7 +13,7 @@
     <children>
         <ImageView fx:id="imLogo" fitHeight="153.0" fitWidth="184.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../images/logo.jpg" />
+
             </image>
         </ImageView>
         <Label fx:id="lbMenu" prefHeight="54.0" prefWidth="504.0" text="Menu ???" textFill="#e4de9b">

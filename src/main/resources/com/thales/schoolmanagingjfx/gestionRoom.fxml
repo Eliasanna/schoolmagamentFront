@@ -70,12 +70,12 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="364.0">
                             <children>
-                                <Label prefHeight="26.0" prefWidth="130.0" text="Quapacité :   ">
+                                <Label prefHeight="26.0" prefWidth="130.0" text="Capacité :   ">
                                     <font>
                                         <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="txtQuapacity" prefHeight="30.0" prefWidth="250.0">
+                                <TextField fx:id="txtCapacity" prefHeight="30.0" prefWidth="250.0">
                                     <font>
                                         <Font size="14.0" />
                                     </font>

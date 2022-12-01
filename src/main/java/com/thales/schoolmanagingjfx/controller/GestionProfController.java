@@ -7,6 +7,7 @@ import com.thales.schoolmanagingjfx.model.*;
 import com.thales.schoolmanagingjfx.utils.HttpRequests;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -34,9 +35,8 @@ public class GestionProfController implements Initializable {
     @FXML
     public TextField tbFName;
     @FXML
-    public TextField tbLName;
-    @FXML
-    public DatePicker dpBirthDate;
+    public TextField txtLName;
+
     @FXML
     public ComboBox cbCourse1;
     @FXML
@@ -51,7 +51,10 @@ public class GestionProfController implements Initializable {
     public Button btnAdd;
     @FXML
     public Button btnSup;
+    @FXML
+    public TextField txtDate;
 
+    private School school = SchoolManagingApplication.getMySchool();
     private ObjectProperty<Teacher> selectedTeacher = new SimpleObjectProperty<Teacher>();
 
     private ObservableList<Teacher> teachers;
@@ -61,6 +64,14 @@ public class GestionProfController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setEntete();
+        SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
+            this.school = SchoolManagingApplication.getMySchool();
+            initializeTableView();
+            initializeButtons();
+            initializecb1();
+            initializecb2();
+            initializeSelection();
+        });
         initializeTableView();
         initializeButtons();
         initializecb1();
@@ -69,38 +80,50 @@ public class GestionProfController implements Initializable {
     }
     private void initializeSelection() {
         this.selectedTeacher.addListener((observableValue, teacher, teacher1)-> {
-            this.lbId.setText(String.valueOf(teacher1.getId()));
-            lbId.setVisible(true);
-            this.tbFName.setText(teacher1.getFirstName());
-            this.tbLName.setText(teacher1.getLastName());
-            //récupere date que l'on mets ne localdate
-            //Date date = teacher1.getBirthdate();
-            //LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            //this.dpBirthDate.setValue(localDate);
-            //affiche les 3 matieres
-
+            if(teacher1==null){
+                lbId.setVisible(false);
+                lbId.setText("");
+                tbFName.clear();
+                txtLName.clear();
+                txtDate.clear();
+            }
+            else {
+                this.lbId.setText(String.valueOf(teacher1.getId()));
+                lbId.setVisible(true);
+                this.tbFName.setText(teacher1.getFirstName());
+                this.txtLName.setText(teacher1.getLastName());
+                this.txtDate.setText(teacher1.getBirthdate());
+                if (listCourseTeacher.get(1)==null){}
+                else{
+                    this.cbCourse1.setValue(listCourseTeacher.get(1));
+                }
+                if (listCourseTeacher.get(2)==null){}
+                else{
+                    this.cbCourse1.setValue(listCourseTeacher.get(2));
+                }
+                if (listCourseTeacher.get(2)==null){}
+                else{
+                    this.cbCourse1.setValue(listCourseTeacher.get(2));
+                }
+                this.cbMainCourse.setValue(teacher1.getGrade().getMainTeacher());
+            }
         });
     }
 
     private void initializeButtons() {
         btnClear.setOnMouseClicked(mouseEvent -> {
             lbId.setVisible(false);
+            lbId.setText("");
             tbFName.clear();
-            tbLName.clear();
-            //TODO vider la date de naissance
-            //TODO rien afficher cb
-
+            txtLName.clear();
+            txtDate.clear();
         });
 
         btnAdd.setOnMouseClicked(mouseEvent -> {
             Teacher myTeacher = new Teacher();
             myTeacher.setFirstName(tbFName.getText());
-            myTeacher.setLastName(tbLName.getText());
-            //recupere une localdate et la transforme en date
-            LocalDate ldate = dpBirthDate.getValue();
-            Date date = Date.from(ldate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-            //myTeacher.setBirthdate(date);
-            //ajout des cours cours
+            myTeacher.setLastName(txtLName.getText());
+            myTeacher.setBirthdate(txtDate.getText());
             Course c1 = (Course) cbCourse1.valueProperty().getValue();
             Course c2 = (Course) cbCourse2.valueProperty().getValue();
             Course c3 = (Course) cbCourse3.valueProperty().getValue();
@@ -109,24 +132,32 @@ public class GestionProfController implements Initializable {
             listCourseTeacher.add(c3);
             myTeacher.setCourses(listCourseTeacher);
             myTeacher.setGrade((Grade) cbMainCourse.valueProperty().getValue());
-            myTeacher.setSchool(SchoolManagingApplication.getMySchool());
+            myTeacher.setSchool(school);
+
             GluonObservableObject<Teacher> potentialConnected = HttpRequests.addTeacher(myTeacher);
 
+            potentialConnected.setOnFailed(connectStateEvent -> {
+                teachers.add(myTeacher);
+                chargerList();
+            });
+            potentialConnected.setOnSucceeded(connectStateEvent -> {
+                teachers.add(myTeacher);
+                chargerList();
+            });
         });
 
         btnSup.setOnMouseClicked(mouseEvent -> {
             String id = lbId.getText();
             HttpRequests.deleteTeacher(id);
-
+            chargerList();
         });
 
     }
 
     private void initializecb1() {
 
-        //recupere liste des courses
-        GluonObservableList<Course> listCourse = HttpRequests.getAllCourse(SchoolManagingApplication.getMySchool().getId());
 
+        GluonObservableList<Course> listCourse = HttpRequests.getAllCourse(school.getId());
         listCourse.setOnSucceeded(connectStateEvent -> {
             this.cbCourse1.setItems(listCourse);
             this.cbCourse2.setItems(listCourse);
@@ -137,21 +168,21 @@ public class GestionProfController implements Initializable {
 
         Callback<ListView<Course>, ListCell<Course>> roomCellFactory =
                 new Callback<ListView<Course>, ListCell<Course>>() {
-            @Override
-            public ListCell<Course> call(ListView<Course> l) {
-                return new ListCell<Course>() {
                     @Override
-                    protected void updateItem(Course item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null || empty) {
-                            setGraphic(null);
-                        } else {
-                            setText(item.getId()+" "+item.getName());
-                        }
+                    public ListCell<Course> call(ListView<Course> l) {
+                        return new ListCell<Course>() {
+                            @Override
+                            protected void updateItem(Course item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (item == null || empty) {
+                                    setGraphic(null);
+                                } else {
+                                    setText(item.getId()+" "+item.getName());
+                                }
+                            }
+                        };
                     }
                 };
-            }
-        };
 
         this.cbCourse1.setButtonCell(roomCellFactory.call(null));
         this.cbCourse1.setCellFactory(roomCellFactory);
@@ -165,7 +196,8 @@ public class GestionProfController implements Initializable {
 
     private void initializecb2() {
 
-        GluonObservableList<Grade> listGrade = HttpRequests.getAllGrade(SchoolManagingApplication.getMySchool().getId());
+
+        GluonObservableList<Grade> listGrade = HttpRequests.getAllGrade(school.getId());
         listGrade.setOnSucceeded(connectStateEvent -> {
             this.cbMainCourse.setItems(listGrade);
             Grade gVide = new Grade();
@@ -192,35 +224,47 @@ public class GestionProfController implements Initializable {
         this.cbMainCourse.setButtonCell(roomCellFactory.call(null));
         this.cbMainCourse.setCellFactory(roomCellFactory);
 
-
-
     }
 
     private void initializeTableView() {
-        TableView<Teacher> tbView = new TableView<>();
-        TableColumn<Teacher, String> idProfCol = new TableColumn<>("Identifiant");
+        //TableColumn<Teacher, String> idProfCol = new TableColumn<>("Identifiant");
         TableColumn<Teacher, String> fnameProfCol = new TableColumn<>("Nom");
         TableColumn<Teacher, String> lnameProfCol = new TableColumn<>("Prénom");
-        // TableColumn<Teacher, Date> dateProfCol = new TableColumn<>("Date de naissance");
-        //TableColumn<Teacher, String> profMatCol = new TableColumn<>("Matières");
+        TableColumn<Teacher, String> dateProfCol = new TableColumn<>("Date de naissance");
+        TableColumn<Teacher, String> profMatCol = new TableColumn<>("Matières");
 
-        tbView.getColumns().addAll(idProfCol,fnameProfCol,lnameProfCol);
+        tbView.getColumns().addAll(fnameProfCol,lnameProfCol,dateProfCol,profMatCol);
 
-        idProfCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        fnameProfCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        lnameProfCol.setCellValueFactory(new PropertyValueFactory<>("section"));
-        //dateProfCol.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
-        //TODO ne fonctionnera pas
-        //profMatCol.setCellValueFactory(new PropertyValueFactory<>("matiere"));
+        //idProfCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        fnameProfCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        lnameProfCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        dateProfCol.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
+        //profMatCol.setCellValueFactory(new PropertyValueFactory<>("courses"));
 
-        GluonObservableList<Teacher> gotList = HttpRequests.getAllTeacher(SchoolManagingApplication.getMySchool().getId());
-        gotList.setOnSucceeded(connectStateEvent -> {
-            this.teachers = FXCollections.observableArrayList(gotList);
-            tbView.setItems(this.teachers);
+        profMatCol.setCellValueFactory(coureStringCellDataFeatures -> {
+            if(coureStringCellDataFeatures.getValue().getCourses()==null){
+                return new SimpleStringProperty("");
+            }
+            String liste="";
+            for (Course c : coureStringCellDataFeatures.getValue().getCourses()) {
+                liste = liste+(c.getName()+ " ");
+            }
+            return new SimpleStringProperty(liste);
         });
+
+        chargerList();
 
         tbView.getSelectionModel().selectedItemProperty().addListener((observableValue, o, t1) -> {
             selectedTeacher.setValue((Teacher) t1);
+        });
+    }
+
+    private void chargerList() {
+        GluonObservableList<Teacher> gotList = HttpRequests.getAllTeacher(school.getId());
+        gotList.setOnSucceeded(connectStateEvent -> {
+            this.teachers = FXCollections.observableArrayList(gotList);
+            tbView.setItems(this.teachers);
+
         });
     }
 

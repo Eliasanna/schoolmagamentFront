@@ -5,6 +5,8 @@ import com.thales.schoolmanagingjfx.model.School;
 import com.thales.schoolmanagingjfx.model.User;
 import com.thales.schoolmanagingjfx.utils.HttpRequests;
 import javafx.application.Application;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -26,7 +28,8 @@ public class SchoolManagingApplication extends Application {
     public static int APPWIDTH = 900;
     public static int APPLENGHT = 500;
     private static User connectedUser;
-    private static School mySchool;
+    private static  ObjectProperty<School> mySchool= new SimpleObjectProperty<School>();
+
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -63,9 +66,17 @@ public class SchoolManagingApplication extends Application {
         return connectedUser;
     }
 
-    public static School getMySchool() { return mySchool;    }
+    public static School getMySchool() {
+        return mySchool.get();
+    }
 
-    public static void setMySchool(School school) { mySchool = school;     }
+    public static ObjectProperty<School> mySchoolProperty() {
+        return mySchool;
+    }
+
+    public static void setMySchool(School mySchool) {
+        SchoolManagingApplication.mySchool.set(mySchool);
+    }
 
     public static void main(String[] args) {
         launch();
