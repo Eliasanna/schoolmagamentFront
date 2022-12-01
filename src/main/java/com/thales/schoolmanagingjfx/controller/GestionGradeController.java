@@ -56,7 +56,7 @@ public class GestionGradeController implements Initializable  {
         SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
             this.school = SchoolManagingApplication.getMySchool();
             initializeButtons();
-            initializeTableView();
+            chargeListe();
             initializeSelection();
         });
 

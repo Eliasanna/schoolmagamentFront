@@ -18,10 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -64,19 +61,20 @@ public class GestionProfController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setEntete();
-        SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
-            this.school = SchoolManagingApplication.getMySchool();
-            initializeTableView();
-            initializeButtons();
-            initializecb1();
-            initializecb2();
-            initializeSelection();
-        });
         initializeTableView();
         initializeButtons();
         initializecb1();
         initializecb2();
         initializeSelection();
+        SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
+            this.school = SchoolManagingApplication.getMySchool();
+            chargeList();
+            initializeButtons();
+            initializecb1();
+            initializecb2();
+            initializeSelection();
+        });
+
     }
     private void initializeSelection() {
         this.selectedTeacher.addListener((observableValue, teacher, teacher1)-> {
@@ -138,18 +136,18 @@ public class GestionProfController implements Initializable {
 
             potentialConnected.setOnFailed(connectStateEvent -> {
                 teachers.add(myTeacher);
-                chargerList();
+                chargeList();
             });
             potentialConnected.setOnSucceeded(connectStateEvent -> {
                 teachers.add(myTeacher);
-                chargerList();
+                chargeList();
             });
         });
 
         btnSup.setOnMouseClicked(mouseEvent -> {
             String id = lbId.getText();
             HttpRequests.deleteTeacher(id);
-            chargerList();
+            chargeList();
         });
 
     }
@@ -252,14 +250,14 @@ public class GestionProfController implements Initializable {
             return new SimpleStringProperty(liste);
         });
 
-        chargerList();
+        chargeList();
 
         tbView.getSelectionModel().selectedItemProperty().addListener((observableValue, o, t1) -> {
             selectedTeacher.setValue((Teacher) t1);
         });
     }
 
-    private void chargerList() {
+    private void chargeList() {
         GluonObservableList<Teacher> gotList = HttpRequests.getAllTeacher(school.getId());
         gotList.setOnSucceeded(connectStateEvent -> {
             this.teachers = FXCollections.observableArrayList(gotList);

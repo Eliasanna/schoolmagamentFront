@@ -32,7 +32,7 @@
                                         <Font name="Rockwell" size="20.0" />
                                     </font>
                                 </Label>
-                                <Label layoutX="45.0" layoutY="83.0" text="Telephone : ">
+                                <Label layoutX="44.0" layoutY="85.0" text="Telephone : ">
                                     <font>
                                         <Font name="Rockwell" size="20.0" />
                                     </font>
@@ -52,22 +52,22 @@
                                         <Font name="Rockwell" size="20.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="lbStreat" layoutX="153.0" layoutY="120.0" text="Rue ??????">
+                                <Label fx:id="lbStreat" layoutX="64.0" layoutY="148.0" text="Rue ??????">
                                     <font>
                                         <Font name="Rockwell" size="20.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="lbCity" layoutX="152.0" layoutY="146.0" text="Ville????">
+                                <Label fx:id="lbCity" layoutX="64.0" layoutY="176.0" text="Ville????">
                                     <font>
                                         <Font name="Rockwell" size="20.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="lbCountry" layoutX="152.0" layoutY="170.0" text="Pays????">
+                                <Label fx:id="lbCountry" layoutX="64.0" layoutY="204.0" text="Pays????">
                                     <font>
                                         <Font name="Rockwell" size="20.0" />
                                     </font>
                                 </Label>
-                                <ImageView fx:id="imgLogo" fitHeight="150.0" fitWidth="200.0" layoutX="92.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true" />
+                                <ImageView fx:id="imgLogo" fitHeight="148.0" fitWidth="152.0" layoutX="215.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true" />
                             </children>
                         </Pane>
                     </children>

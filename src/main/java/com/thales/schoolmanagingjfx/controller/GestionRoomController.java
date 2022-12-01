@@ -5,6 +5,7 @@ import com.gluonhq.connect.GluonObservableObject;
 import com.thales.schoolmanagingjfx.SchoolManagingApplication;
 import com.thales.schoolmanagingjfx.model.ClassRoom;
 import com.thales.schoolmanagingjfx.model.Course;
+import com.thales.schoolmanagingjfx.model.Grade;
 import com.thales.schoolmanagingjfx.model.School;
 import com.thales.schoolmanagingjfx.utils.HttpRequests;
 import javafx.beans.property.ObjectProperty;
@@ -55,6 +56,7 @@ public class GestionRoomController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setEntete();
+        lbListCourse.setVisible(false);
         SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
             this.school = SchoolManagingApplication.getMySchool();
             initializecb();
@@ -115,8 +117,15 @@ public class GestionRoomController implements Initializable {
             myClassRoom.setCapacity(Integer.parseInt(txtCapacity.getText()));
             myClassRoom.setSchool(school);
 
-            GluonObservableObject<ClassRoom> PotentialConnected = HttpRequests.addClassRoom(myClassRoom);
-            classRoomss.add(myClassRoom);
+            GluonObservableObject<ClassRoom> potentialConnected = HttpRequests.addClassRoom(myClassRoom);
+            potentialConnected.setOnFailed(connectStateEvent -> {
+                classRoomss.add(myClassRoom);
+                chargeListe();
+            });
+            potentialConnected.setOnSucceeded(connectStateEvent -> {
+                classRoomss.add(myClassRoom);
+                chargeListe();
+            });
         });
 
         btnSup.setOnMouseClicked(mouseEvent -> {
@@ -133,25 +142,37 @@ public class GestionRoomController implements Initializable {
         idRoomCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameRoomCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         capRommCol.setCellValueFactory(new PropertyValueFactory<>("capacity"));
-
-        GluonObservableList<ClassRoom> gotList = HttpRequests.getAllClassRoom(school.getId());
-        gotList.setOnSucceeded(connectStateEvent -> {
-            this.classRoomss = FXCollections.observableArrayList(gotList);
-            tbView.setItems(this.classRoomss);
-        });
+        chargeListe();
 
         tbView.getSelectionModel().selectedItemProperty().addListener((observableValue, o, t1) -> {
             selectedClassRoom.setValue((ClassRoom) t1);
         });
     }
 
+    private void chargeListe() {
+        GluonObservableList<ClassRoom> gotList = HttpRequests.getAllClassRoom(school.getId());
+        gotList.setOnSucceeded(connectStateEvent -> {
+            this.classRoomss = FXCollections.observableArrayList(gotList);
+            tbView.setItems(this.classRoomss);
+        });
+
+    }
+
     private void initializeSelection() {
         this.selectedClassRoom.addListener((observableValue, classRoom, classRoom1)-> {
+
+            if(classRoom1==null){
+                lbId.setVisible(false);
+                txtName.clear();
+                txtCapacity.clear();
+            }
+            else{
             this.lbId.setText(String.valueOf(classRoom1.getId()));
             lbId.setVisible(true);
+
             this.txtName.setText(classRoom1.getName());
             this.txtCapacity.setText(String.valueOf(classRoom1.getCapacity()));
-            this.lbListCourse.setText(listCourseExclue.toString());
+            this.lbListCourse.setText(listCourseExclue.toString());}
         });
     }
 

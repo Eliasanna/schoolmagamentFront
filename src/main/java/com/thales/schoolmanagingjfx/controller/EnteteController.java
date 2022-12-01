@@ -25,19 +25,22 @@ public class EnteteController implements Initializable  {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         initializetxt();
         initializeButtons();
         initializeImage();
+        SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
+            initializetxt();
+            initializeButtons();
+            initializeImage();
+        });
     }
 
     private void initializeImage() {
         //String imageURL="@../../../images/"+SchoolManagingApplication.getMySchool().getLogo()+".jpg";
        //System.out.println(imageURL);
-         String imageURL="C:\\Users\\celin\\IdeaProjects\\schoolManagingJFx\\src\\main\\resources\\images\\"+SchoolManagingApplication.getMySchool().getLogo()+".jpg";
+        String imageURL="C:\\Users\\celin\\IdeaProjects\\schoolManagingJFx\\src\\main\\resources\\images\\"+SchoolManagingApplication.getMySchool().getLogo()+".jpg";
         Image logo = new Image(imageURL);
         imLogo.setImage(logo);
-
     }
 
     private void initializeButtons() {

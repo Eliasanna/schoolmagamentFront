@@ -47,18 +47,16 @@ public class GestionMatiereController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setEntete();
-        SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
-            this.school = SchoolManagingApplication.getMySchool();
-            lbId.setVisible(false);
-            initializeTableView();
-            initializeButtons();
-            initializeSelection();
-        });
-
         lbId.setVisible(false);
         initializeTableView();
         initializeButtons();
         initializeSelection();
+        SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
+            this.school = SchoolManagingApplication.getMySchool();
+            lbId.setVisible(false);
+            chargeListe();
+            initializeSelection();
+        });
     }
 
     private void initializeButtons() {

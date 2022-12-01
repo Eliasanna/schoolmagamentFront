@@ -39,7 +39,6 @@ public class AccueilController implements Initializable  {
     public Label lbLogin;
 
     private School mySchool;
-    public Observable mySchoolO;
 
     public School getMySchool() {
         return mySchool;
@@ -93,10 +92,10 @@ public class AccueilController implements Initializable  {
             mySchool = (School) cbSchool.valueProperty().getValue();
             System.out.println(mySchool);
             SchoolManagingApplication.setMySchool(mySchool);
+            SchoolManagingApplication.setMyAdresse(mySchool.getAddress());
             hboxbBtn.setVisible(true);
             lbNameSchool.setText("** "+mySchool.getName()+" **");
             lbNameSchool.setVisible(true);
-
         });
     }
 

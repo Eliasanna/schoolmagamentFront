@@ -1,6 +1,7 @@
 package com.thales.schoolmanagingjfx;
 
 import com.gluonhq.connect.GluonObservableList;
+import com.thales.schoolmanagingjfx.model.Address;
 import com.thales.schoolmanagingjfx.model.School;
 import com.thales.schoolmanagingjfx.model.User;
 import com.thales.schoolmanagingjfx.utils.HttpRequests;
@@ -29,7 +30,19 @@ public class SchoolManagingApplication extends Application {
     public static int APPLENGHT = 500;
     private static User connectedUser;
     private static  ObjectProperty<School> mySchool= new SimpleObjectProperty<School>();
+    private static  ObjectProperty<Address> myAdresse= new SimpleObjectProperty<Address>();
 
+    public static Address getMyAdresse() {
+        return myAdresse.get();
+    }
+
+    public static ObjectProperty<Address> myAdresseProperty() {
+        return myAdresse;
+    }
+
+    public static void setMyAdresse(Address myAdresse) {
+        SchoolManagingApplication.myAdresse.set(myAdresse);
+    }
 
     @Override
     public void start(Stage stage) throws IOException {

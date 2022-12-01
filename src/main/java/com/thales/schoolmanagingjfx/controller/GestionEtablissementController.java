@@ -70,28 +70,37 @@ public class GestionEtablissementController implements Initializable  {
     public Label lbMessage;
 
     private School school = SchoolManagingApplication.getMySchool();
+    private Address address = SchoolManagingApplication.getMyAdresse();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setEntete();
-        SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
-            initializeButtons();
-            initializeCb();
-            initializeTxt();
-        });
-
         lbMessage.setVisible(false);
         initializeButtons();
         initializeCb();
         initializeTxt();
+        SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
+            lbStreat.setText("");
+            lbCity.setText("");
+            lbCountry.setText("");
+            initializeButtons();
+            initializeCb();
+            initializeTxt();
+        });
     }
 
     private void initializeTxt() {
+        this.school= SchoolManagingApplication.getMySchool();
+        this.address = this.school.getAddress();
+        lbName.setText(school.getName());
         lbId.setText(String.valueOf(school.getId()));
-        lbTel.setText(school.getPhoneNumber());
-        lbStreat.setText(school.getAddress().getStreetNumber()+" "+school.getAddress().getStreet());
-        lbCity.setText(school.getAddress().getCity());
-        lbCountry.setText(school.getAddress().getCountry());
+        lbTel.setText("0"+school.getPhoneNumber());
+        //lbStreat.setText(school.getAddress().getStreetNumber()+" "+school.getAddress().getStreet());
+        lbStreat.setText(address.getStreetNumber()+" "+address.getStreet());
+        //lbCity.setText(school.getAddress().getCity());
+        lbCity.setText(address.getCity());
+        //lbCountry.setText(school.getAddress().getCountry());
+        lbCountry.setText(address.getCountry());
         String imageURL="C:\\Users\\celin\\IdeaProjects\\schoolManagingJFx\\src\\main\\resources\\images\\"+SchoolManagingApplication.getMySchool().getLogo()+".jpg";
         Image logo = new Image(imageURL);
         imgLogo.setImage(logo);
