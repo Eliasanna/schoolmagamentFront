@@ -103,5 +103,4 @@ public class GestionUserController implements Initializable {
             SchoolManagingApplication.setUser(myUser);
         });
     }
-
 }
