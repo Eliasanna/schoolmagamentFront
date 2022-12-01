@@ -60,6 +60,7 @@ public class GestionRoomController implements Initializable {
         initializeTableView();
         initializeButtons();
         initializeSelection();
+        lbId.setVisible(false);
     }
 
     private void initializecb() {
@@ -106,10 +107,10 @@ public class GestionRoomController implements Initializable {
             ClassRoom myClassRoom = new ClassRoom();
             myClassRoom.setName(txtName.getText());
             myClassRoom.setCapacity(Integer.parseInt(txtQuapacity.getText()));
-            //TODO school
-            //myCourse.setSchool(AccueilController.getSchool());
+            myClassRoom.setSchool(SchoolManagingApplication.getMySchool());
 
             GluonObservableObject<ClassRoom> PotentialConnected = HttpRequests.addClassRoom(myClassRoom);
+            classRoomss.add(myClassRoom);
         });
 
         btnSup.setOnMouseClicked(mouseEvent -> {
@@ -118,12 +119,12 @@ public class GestionRoomController implements Initializable {
         });
     }
     private void initializeTableView() {
-        TableColumn<ClassRoom, String> idRoomCol = new TableColumn<>("Identifiant");
+        //TableColumn<ClassRoom, String> idRoomCol = new TableColumn<>("Identifiant");
         TableColumn<ClassRoom, String> nameRoomCol = new TableColumn<>("Nom");
-        TableColumn<ClassRoom, String> capRommCol = new TableColumn<>("Quapacité");
-
-        tbView.getColumns().addAll(idRoomCol,nameRoomCol,capRommCol);
-        idRoomCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        TableColumn<ClassRoom, String> capRommCol = new TableColumn<>("Capacité");
+        tbView.getColumns().addAll(nameRoomCol,capRommCol);
+        //tbView.getColumns().addAll(idRoomCol,nameRoomCol,capRommCol);
+        //idRoomCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameRoomCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         capRommCol.setCellValueFactory(new PropertyValueFactory<>("capacity"));
 
@@ -147,6 +148,7 @@ public class GestionRoomController implements Initializable {
             this.lbListCourse.setText(listCourseExclue.toString());
         });
     }
+
     private void setEntete(){
         Label title = (Label) enTete.getChildren().get(1);
         title.setText("  Gestion des salles  ");

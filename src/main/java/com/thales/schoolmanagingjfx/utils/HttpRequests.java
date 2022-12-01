@@ -109,6 +109,7 @@ public class HttpRequests {
                 .readTimeout(1000);
         return DataProvider.retrieveList(course.createListDataReader(Course.class));
     }
+
     public static GluonObservableObject<Course> addCourse(Course myCourse) {
         RestClient client = RestClient.create()
                 .method("POST")

@@ -23,7 +23,7 @@ public class Grade {
 
     private List<Lesson> lessons=new ArrayList<>();
 
-    private Teacher teacher;
+    private Teacher mainTeacher;
 
     School school;
 }

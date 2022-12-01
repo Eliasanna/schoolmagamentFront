@@ -1,7 +1,9 @@
 package com.thales.schoolmanagingjfx;
 
+import com.gluonhq.connect.GluonObservableList;
 import com.thales.schoolmanagingjfx.model.School;
 import com.thales.schoolmanagingjfx.model.User;
+import com.thales.schoolmanagingjfx.utils.HttpRequests;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -26,7 +28,6 @@ public class SchoolManagingApplication extends Application {
     private static User connectedUser;
     private static School mySchool;
 
-
     @Override
     public void start(Stage stage) throws IOException {
         root = (AnchorPane) FXMLLoader.load(getClass().getResource("root.fxml"));
@@ -36,6 +37,7 @@ public class SchoolManagingApplication extends Application {
 
         Scene scene = new Scene(root, APPWIDTH, APPLENGHT);
         stage.setTitle("SchoolManaging");
+        System.out.println(getUser());
         stage.setScene(scene);
         stage.show();
     }
@@ -48,7 +50,6 @@ public class SchoolManagingApplication extends Application {
                 throw new RuntimeException(e);
             }
         }
-
         root.getChildren().remove(screens.get(currentScreen));
         root.getChildren().add(screens.get(screen));
         currentScreen = screen;
@@ -66,9 +67,6 @@ public class SchoolManagingApplication extends Application {
 
     public static void setMySchool(School school) { mySchool = school;     }
 
-    private void initialInsert(){
-
-    }
     public static void main(String[] args) {
         launch();
     }

@@ -67,8 +67,6 @@ public class GestionProfController implements Initializable {
         initializecb2();
         initializeSelection();
     }
-
-
     private void initializeSelection() {
         this.selectedTeacher.addListener((observableValue, teacher, teacher1)-> {
             this.lbId.setText(String.valueOf(teacher1.getId()));
@@ -76,10 +74,9 @@ public class GestionProfController implements Initializable {
             this.tbFName.setText(teacher1.getFirstName());
             this.tbLName.setText(teacher1.getLastName());
             //récupere date que l'on mets ne localdate
-            Date date = teacher1.getBirthdate();
-            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            this.dpBirthDate.setValue(localDate);
-
+            //Date date = teacher1.getBirthdate();
+            //LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            //this.dpBirthDate.setValue(localDate);
             //affiche les 3 matieres
 
         });
@@ -87,18 +84,22 @@ public class GestionProfController implements Initializable {
 
     private void initializeButtons() {
         btnClear.setOnMouseClicked(mouseEvent -> {
+            lbId.setVisible(false);
+            tbFName.clear();
+            tbLName.clear();
+            //TODO vider la date de naissance
+            //TODO rien afficher cb
 
         });
 
         btnAdd.setOnMouseClicked(mouseEvent -> {
-
             Teacher myTeacher = new Teacher();
             myTeacher.setFirstName(tbFName.getText());
             myTeacher.setLastName(tbLName.getText());
             //recupere une localdate et la transforme en date
             LocalDate ldate = dpBirthDate.getValue();
             Date date = Date.from(ldate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-            myTeacher.setBirthdate(date);
+            //myTeacher.setBirthdate(date);
             //ajout des cours cours
             Course c1 = (Course) cbCourse1.valueProperty().getValue();
             Course c2 = (Course) cbCourse2.valueProperty().getValue();
@@ -108,12 +109,15 @@ public class GestionProfController implements Initializable {
             listCourseTeacher.add(c3);
             myTeacher.setCourses(listCourseTeacher);
             myTeacher.setGrade((Grade) cbMainCourse.valueProperty().getValue());
+            myTeacher.setSchool(SchoolManagingApplication.getMySchool());
             GluonObservableObject<Teacher> potentialConnected = HttpRequests.addTeacher(myTeacher);
+
         });
 
         btnSup.setOnMouseClicked(mouseEvent -> {
             String id = lbId.getText();
             HttpRequests.deleteTeacher(id);
+
         });
 
     }
@@ -122,6 +126,7 @@ public class GestionProfController implements Initializable {
 
         //recupere liste des courses
         GluonObservableList<Course> listCourse = HttpRequests.getAllCourse(SchoolManagingApplication.getMySchool().getId());
+
         listCourse.setOnSucceeded(connectStateEvent -> {
             this.cbCourse1.setItems(listCourse);
             this.cbCourse2.setItems(listCourse);
@@ -130,7 +135,8 @@ public class GestionProfController implements Initializable {
             listCourse.add(courseVide);
         });
 
-        Callback<ListView<Course>, ListCell<Course>> roomCellFactory = new Callback<ListView<Course>, ListCell<Course>>() {
+        Callback<ListView<Course>, ListCell<Course>> roomCellFactory =
+                new Callback<ListView<Course>, ListCell<Course>>() {
             @Override
             public ListCell<Course> call(ListView<Course> l) {
                 return new ListCell<Course>() {
@@ -155,18 +161,10 @@ public class GestionProfController implements Initializable {
 
         this.cbCourse3.setButtonCell(roomCellFactory.call(null));
         this.cbCourse3.setCellFactory(roomCellFactory);
-
-        //recupere liste des courses
-        GluonObservableList<Grade> listGrade = HttpRequests.getAllGrade(SchoolManagingApplication.getMySchool().getId());
-        listCourse.setOnSucceeded(connectStateEvent -> {
-            this.cbMainCourse.setItems(listGrade);
-            Grade gVide = new Grade();
-            listGrade.add(gVide);
-        });
     }
 
     private void initializecb2() {
-        //recupere liste des courses
+
         GluonObservableList<Grade> listGrade = HttpRequests.getAllGrade(SchoolManagingApplication.getMySchool().getId());
         listGrade.setOnSucceeded(connectStateEvent -> {
             this.cbMainCourse.setItems(listGrade);
@@ -191,8 +189,8 @@ public class GestionProfController implements Initializable {
             }
         };
 
-        this.cbCourse1.setButtonCell(roomCellFactory.call(null));
-        this.cbCourse1.setCellFactory(roomCellFactory);
+        this.cbMainCourse.setButtonCell(roomCellFactory.call(null));
+        this.cbMainCourse.setCellFactory(roomCellFactory);
 
 
 

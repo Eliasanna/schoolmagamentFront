@@ -44,13 +44,12 @@ public class GestionMatiereController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        lbId.setVisible(false);
         setEntete();
         initializeTableView();
         initializeButtons();
         initializeSelection();
     }
-
-
 
     private void initializeButtons() {
 
@@ -64,15 +63,26 @@ public class GestionMatiereController implements Initializable {
             Course myCourse = new Course();
             myCourse.setColor(String.valueOf(cpColor.getValue()));
             myCourse.setName(tbName.getText());
-            //TODO school enregistrement en erreur sur school envoyé
-            //myCourse.setSchool(AccueilController.getSchool());
-            GluonObservableObject<Course> PotentialConnected = HttpRequests.addCourse(myCourse);
+            myCourse.setSchool(SchoolManagingApplication.getMySchool());
+
+            GluonObservableObject<Course> potentialConnected = HttpRequests.addCourse(myCourse);
+            potentialConnected.setOnFailed(connectStateEvent -> {
+                System.out.println("je suis dans le echec");
+                System.out.println(connectStateEvent);
+                courses.add(myCourse);
+                chargeListe();
+            });
+            potentialConnected.setOnSucceeded(connectStateEvent -> {
+                System.out.println("je suis dans le setOnSucceeded");
+
+            });
+
         });
 
         btnSup.setOnMouseClicked(mouseEvent -> {
             String id = lbId.getText();
             HttpRequests.deleteCourse(id);
-
+            chargeListe();
         });
     }
 
@@ -82,28 +92,38 @@ public class GestionMatiereController implements Initializable {
         TableColumn<Course, String> colorCourseCol = new TableColumn<>("Couleur");
 
         tbView.getColumns().addAll(idCourseCol,nameCourseCol,colorCourseCol);
+        //tbView.getColumns().addAll(nameCourseCol,colorCourseCol);
         idCourseCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameCourseCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         colorCourseCol.setCellValueFactory(new PropertyValueFactory<>("color"));
-
-        GluonObservableList<Course> gotList = HttpRequests.getAllCourse(SchoolManagingApplication.getMySchool().getId());
-        gotList.setOnSucceeded(connectStateEvent -> {
-            this.courses = FXCollections.observableArrayList(gotList);
-            tbView.setItems(this.courses);
-        });
-
+        chargeListe();
         tbView.getSelectionModel().selectedItemProperty().addListener((observableValue, o, t1) -> {
             selectedCourse.setValue((Course) t1);
         });
     }
 
+    private void chargeListe() {
+        GluonObservableList<Course> gotList = HttpRequests.getAllCourse(SchoolManagingApplication.getMySchool().getId());
+        gotList.setOnSucceeded(connectStateEvent -> {
+            this.courses = FXCollections.observableArrayList(gotList);
+            tbView.setItems(this.courses);
+        });
+    }
+
     private void initializeSelection() {
         this.selectedCourse.addListener((observableValue, course, course1)-> {
+            if(course1==null){
+                lbId.setText("");
+                lbId.setVisible(false);
+                this.tbName.clear();
+                cpColor.setValue(Color.WHITE);
+            }
+            else{
             this.lbId.setText(String.valueOf(course1.getId()));
             lbId.setVisible(true);
             this.tbName.setText(course1.getName());
-            String color = course1.getColor(); //TODO les couleur dans la base doivent etre en maj
-            cpColor.setValue(Color.valueOf(color));
+            String color = course1.getColor();
+            cpColor.setValue(Color.valueOf(color));}
         });
     }
     private void setEntete(){

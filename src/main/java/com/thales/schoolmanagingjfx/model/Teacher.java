@@ -22,7 +22,7 @@ public class Teacher {
     @NonNull
     private String lastName;
 
-    private Date birthdate;
+    private String birthdate;
 
     private Grade grade;
 
