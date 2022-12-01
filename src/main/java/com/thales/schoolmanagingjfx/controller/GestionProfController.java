@@ -41,8 +41,6 @@ public class GestionProfController implements Initializable {
     @FXML
     public ComboBox cbCourse3;
     @FXML
-    public ComboBox cbMainCourse;
-    @FXML
     public Button btnClear;
     @FXML
     public Button btnAdd;
@@ -64,14 +62,14 @@ public class GestionProfController implements Initializable {
         initializeTableView();
         initializeButtons();
         initializecb1();
-        initializecb2();
+
         initializeSelection();
         SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
             this.school = SchoolManagingApplication.getMySchool();
             chargeList();
             initializeButtons();
             initializecb1();
-            initializecb2();
+
             initializeSelection();
         });
 
@@ -91,20 +89,22 @@ public class GestionProfController implements Initializable {
                 this.tbFName.setText(teacher1.getFirstName());
                 this.txtLName.setText(teacher1.getLastName());
                 this.txtDate.setText(teacher1.getBirthdate());
-                if (listCourseTeacher.get(1)==null){}
-                else{
-                    this.cbCourse1.setValue(listCourseTeacher.get(1));
+                this.listCourseTeacher=teacher1.getCourses();
+                    System.out.println(listCourseTeacher);
+                    System.out.println(listCourseTeacher.size());
+
+                    if (listCourseTeacher.size()==1){
+                        this.cbCourse1.setValue(listCourseTeacher.get(0));
+                    } else if (listCourseTeacher.size()==1) {
+                        this.cbCourse1.setValue(listCourseTeacher.get(0));
+                        this.cbCourse2.setValue(listCourseTeacher.get(1));
+                    }
+                    else{
+                        this.cbCourse1.setValue(listCourseTeacher.get(0));
+                        this.cbCourse2.setValue(listCourseTeacher.get(1));
+                        this.cbCourse3.setValue(listCourseTeacher.get(2));
+                    }
                 }
-                if (listCourseTeacher.get(2)==null){}
-                else{
-                    this.cbCourse1.setValue(listCourseTeacher.get(2));
-                }
-                if (listCourseTeacher.get(2)==null){}
-                else{
-                    this.cbCourse1.setValue(listCourseTeacher.get(2));
-                }
-                this.cbMainCourse.setValue(teacher1.getGrade().getMainTeacher());
-            }
         });
     }
 
@@ -125,11 +125,14 @@ public class GestionProfController implements Initializable {
             Course c1 = (Course) cbCourse1.valueProperty().getValue();
             Course c2 = (Course) cbCourse2.valueProperty().getValue();
             Course c3 = (Course) cbCourse3.valueProperty().getValue();
-            listCourseTeacher.add(c1);
-            listCourseTeacher.add(c2);
-            listCourseTeacher.add(c3);
-            myTeacher.setCourses(listCourseTeacher);
-            myTeacher.setGrade((Grade) cbMainCourse.valueProperty().getValue());
+            if(c1==null){}
+            else{listCourseTeacher.add(c1);}
+            if(c2==null){}
+            else{listCourseTeacher.add(c2);}
+            if(c2==null){}
+            else{listCourseTeacher.add(c3);}
+            if(listCourseTeacher==null){}
+            else{myTeacher.setCourses(listCourseTeacher);}
             myTeacher.setSchool(school);
 
             GluonObservableObject<Teacher> potentialConnected = HttpRequests.addTeacher(myTeacher);
@@ -153,8 +156,6 @@ public class GestionProfController implements Initializable {
     }
 
     private void initializecb1() {
-
-
         GluonObservableList<Course> listCourse = HttpRequests.getAllCourse(school.getId());
         listCourse.setOnSucceeded(connectStateEvent -> {
             this.cbCourse1.setItems(listCourse);
@@ -192,37 +193,7 @@ public class GestionProfController implements Initializable {
         this.cbCourse3.setCellFactory(roomCellFactory);
     }
 
-    private void initializecb2() {
 
-
-        GluonObservableList<Grade> listGrade = HttpRequests.getAllGrade(school.getId());
-        listGrade.setOnSucceeded(connectStateEvent -> {
-            this.cbMainCourse.setItems(listGrade);
-            Grade gVide = new Grade();
-            listGrade.add(gVide);
-        });
-
-        Callback<ListView<Grade>, ListCell<Grade>> roomCellFactory = new Callback<ListView<Grade>, ListCell<Grade>>() {
-            @Override
-            public ListCell<Grade> call(ListView<Grade> l) {
-                return new ListCell<Grade>() {
-                    @Override
-                    protected void updateItem(Grade item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null || empty) {
-                            setGraphic(null);
-                        } else {
-                            setText(item.getId()+" "+item.getName());
-                        }
-                    }
-                };
-            }
-        };
-
-        this.cbMainCourse.setButtonCell(roomCellFactory.call(null));
-        this.cbMainCourse.setCellFactory(roomCellFactory);
-
-    }
 
     private void initializeTableView() {
         //TableColumn<Teacher, String> idProfCol = new TableColumn<>("Identifiant");

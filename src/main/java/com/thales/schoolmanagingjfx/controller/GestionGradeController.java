@@ -19,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,11 +41,10 @@ public class GestionGradeController implements Initializable  {
     public Button btnAdd;
     @FXML
     public Button btnSup;
+    @FXML
+    public ComboBox cbMainTeacher;
     private School school = SchoolManagingApplication.getMySchool();
-    public ComboBox cbListProf;
-
     private ObjectProperty<Grade> selectedGrade = new SimpleObjectProperty<Grade>();
-
     private ObservableList<Grade> grades;
 
     @Override
@@ -53,13 +53,41 @@ public class GestionGradeController implements Initializable  {
         initializeButtons();
         initializeTableView();
         initializeSelection();
+        initializeCb();
+
         SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
             this.school = SchoolManagingApplication.getMySchool();
             initializeButtons();
             chargeListe();
             initializeSelection();
+            initializeCb();
+        });
+    }
+
+    private void initializeCb() {
+        GluonObservableList<Teacher> listTeacher = HttpRequests.getAllTeacher(school.getId());
+        listTeacher.setOnSucceeded(connectStateEvent -> {
+            this.cbMainTeacher.setItems(listTeacher);
+            Teacher gVide = new Teacher();
+            listTeacher.add(gVide);
         });
 
+        Callback<ListView<Teacher>, ListCell<Teacher>> roomCellFactory = new Callback<ListView<Teacher>, ListCell<Teacher>>() {
+            @Override
+            public ListCell<Teacher> call(ListView<Teacher> l) {
+                return new ListCell<Teacher>() {
+                    @Override
+                    protected void updateItem(Teacher item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setGraphic(null);
+                        } else {
+                            setText(item.getId()+" "+item.getFirstName()+" "+item.getLastName());
+                }}};
+            }
+        };
+        this.cbMainTeacher.setButtonCell(roomCellFactory.call(null));
+        this.cbMainTeacher.setCellFactory(roomCellFactory);
     }
 
     private void initializeTableView() {
@@ -110,6 +138,7 @@ public class GestionGradeController implements Initializable  {
             myGrade.setName(tbName.getText());
             myGrade.setSection(tbSection.getText());
             myGrade.setSchool(school);
+            myGrade.setMainTeacher((Teacher) cbMainTeacher.valueProperty().getValue());
 
             GluonObservableObject<Grade> potentialConnected = HttpRequests.addGrade(myGrade);
             potentialConnected.setOnFailed(connectStateEvent -> {
@@ -117,7 +146,8 @@ public class GestionGradeController implements Initializable  {
                 chargeListe();
             });
             potentialConnected.setOnSucceeded(connectStateEvent -> {
-
+                grades.add(myGrade);
+                chargeListe();
             });
         });
 
@@ -141,6 +171,7 @@ public class GestionGradeController implements Initializable  {
             lbId.setVisible(true);
             this.tbName.setText(grade1.getName());
             this.tbSection.setText(grade1.getSection());
+            this.cbMainTeacher.setValue(grade1.getMainTeacher());
             }
         });
     }

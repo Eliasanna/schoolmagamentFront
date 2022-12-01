@@ -124,16 +124,6 @@
                                 <ComboBox fx:id="cbCourse3" prefHeight="26.0" prefWidth="238.0" />
                             </children>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="364.0">
-                            <children>
-                                <Label prefHeight="26.0" prefWidth="174.0" text="Classe principale :   ">
-                                    <font>
-                                        <Font name="System Bold" size="16.0" />
-                                    </font>
-                                </Label>
-                                <ComboBox fx:id="cbMainCourse" prefHeight="26.0" prefWidth="238.0" />
-                            </children>
-                        </HBox>
                         <Pane prefHeight="8.0" prefWidth="402.0" style="-fx-background-color: #e4de9b;" />
                         <HBox alignment="CENTER" prefHeight="39.0" prefWidth="364.0">
                             <children>

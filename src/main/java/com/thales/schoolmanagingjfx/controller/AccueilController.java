@@ -2,6 +2,7 @@ package com.thales.schoolmanagingjfx.controller;
 import com.gluonhq.connect.GluonObservableList;
 import com.thales.schoolmanagingjfx.SchoolManagingApplication;
 import com.thales.schoolmanagingjfx.model.School;
+import com.thales.schoolmanagingjfx.model.User;
 import com.thales.schoolmanagingjfx.utils.HttpRequests;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -133,6 +134,7 @@ public class AccueilController implements Initializable  {
         });
         this.btnUser.setOnMouseClicked(mouseEvent -> {
             SchoolManagingApplication.setScreen("gestionUser");
+
         });
     }
 

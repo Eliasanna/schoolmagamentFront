@@ -20,6 +20,8 @@ import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class GestionRoomController implements Initializable {
@@ -51,7 +53,7 @@ public class GestionRoomController implements Initializable {
 
     private ObservableList<ClassRoom> classRoomss;
 
-    private  Course[] listCourseExclue= new Course[3] ;
+    private List<Course> listCourseExclue= new ArrayList<Course>() ;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -109,6 +111,8 @@ public class GestionRoomController implements Initializable {
             lbId.setVisible(false);
             txtName.clear();
             txtCapacity.clear();
+            lbListCourse.setText("");
+            lbListCourse.setVisible(false);
         });
 
         btnAdd.setOnMouseClicked(mouseEvent -> {
@@ -131,6 +135,13 @@ public class GestionRoomController implements Initializable {
         btnSup.setOnMouseClicked(mouseEvent -> {
             String id = lbId.getText();
             HttpRequests.deleteCourse(id);
+        });
+
+        btnAddExclueCourse.setOnMouseClicked(mouseEvent -> {
+            Course cExclu = (Course) cbExcluCourse.valueProperty().getValue();
+            listCourseExclue.add(cExclu);
+            lbListCourse.setVisible(true);
+            lbListCourse.setText(listCourseExclue.toString());
         });
     }
     private void initializeTableView() {
@@ -172,7 +183,8 @@ public class GestionRoomController implements Initializable {
 
             this.txtName.setText(classRoom1.getName());
             this.txtCapacity.setText(String.valueOf(classRoom1.getCapacity()));
-            this.lbListCourse.setText(listCourseExclue.toString());}
+            this.lbListCourse.setText(listCourseExclue.toString());
+            }
         });
     }
 

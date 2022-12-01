@@ -94,16 +94,22 @@ public class GestionEtablissementController implements Initializable  {
         this.address = this.school.getAddress();
         lbName.setText(school.getName());
         lbId.setText(String.valueOf(school.getId()));
-        lbTel.setText("0"+school.getPhoneNumber());
-        //lbStreat.setText(school.getAddress().getStreetNumber()+" "+school.getAddress().getStreet());
+        lbTel.setText(school.getPhoneNumber());
         lbStreat.setText(address.getStreetNumber()+" "+address.getStreet());
-        //lbCity.setText(school.getAddress().getCity());
         lbCity.setText(address.getCity());
-        //lbCountry.setText(school.getAddress().getCountry());
         lbCountry.setText(address.getCountry());
         String imageURL="C:\\Users\\celin\\IdeaProjects\\schoolManagingJFx\\src\\main\\resources\\images\\"+SchoolManagingApplication.getMySchool().getLogo()+".jpg";
         Image logo = new Image(imageURL);
         imgLogo.setImage(logo);
+
+        txtStreat.setText(address.getStreet());
+        txtUrlIm.setText(school.getLogo());
+        txtTel.setText(school.getPhoneNumber());
+        txtCountry.setText(address.getCountry());
+        txtName.setText(school.getName());
+        txtnbStreat.setText(String.valueOf(address.getStreetNumber()));
+        txtCity.setText(address.getCity());
+        cbType.setValue(school.getType());
     }
 
     private void initializeCb() {
