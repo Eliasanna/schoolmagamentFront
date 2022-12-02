@@ -6,6 +6,7 @@ import com.thales.schoolmanagingjfx.model.Address;
 import com.thales.schoolmanagingjfx.model.Course;
 import com.thales.schoolmanagingjfx.model.School;
 import com.thales.schoolmanagingjfx.utils.HttpRequests;
+import com.thales.schoolmanagingjfx.utils.NewSchoolSingleton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -98,7 +99,7 @@ public class GestionEtablissementController implements Initializable  {
         lbStreat.setText(address.getStreetNumber()+" "+address.getStreet());
         lbCity.setText(address.getCity());
         lbCountry.setText(address.getCountry());
-        String imageURL="C:\\Users\\celin\\IdeaProjects\\schoolManagingJFx\\src\\main\\resources\\images\\"+SchoolManagingApplication.getMySchool().getLogo()+".jpg";
+        String imageURL="C:\\Users\\User\\IdeaProjects\\schoolmagamentFront\\src\\main\\resources\\images\\"+SchoolManagingApplication.getMySchool().getLogo()+".jpg";
         Image logo = new Image(imageURL);
         imgLogo.setImage(logo);
 
@@ -152,8 +153,13 @@ public class GestionEtablissementController implements Initializable  {
             mySchool.setPhoneNumber(txtTel.getText());
             mySchool.setLogo(txtUrlIm.getText());
             mySchool.setAddress(adresse);
-            potentialConnected.setOnSucceeded(connectStateEvent -> {
-                GluonObservableObject<School> potentialConnected2 = HttpRequests.addSchool(mySchool);});
+            potentialConnected.setOnFailed(connectStateEvent -> {
+                GluonObservableObject<School> potentialConnected2 = HttpRequests.addSchool(mySchool);
+                potentialConnected2.setOnFailed(connectStateEvent1 -> {
+                    NewSchoolSingleton.getInstance().setAddSchool(!NewSchoolSingleton.getInstance().isAddSchool());
+                });
+
+            });
         });
 
         btnUpdate.setOnMouseClicked(mouseEvent -> {

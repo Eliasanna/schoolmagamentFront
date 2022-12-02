@@ -4,6 +4,7 @@ import com.thales.schoolmanagingjfx.SchoolManagingApplication;
 import com.thales.schoolmanagingjfx.model.School;
 import com.thales.schoolmanagingjfx.model.User;
 import com.thales.schoolmanagingjfx.utils.HttpRequests;
+import com.thales.schoolmanagingjfx.utils.NewSchoolSingleton;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -83,6 +84,16 @@ public class AccueilController implements Initializable  {
         this.cbSchool.setButtonCell(schoolCellFactory.call(null));
         this.cbSchool.setCellFactory(schoolCellFactory);
 
+        NewSchoolSingleton.getInstance().addSchoolProperty().addListener(observable -> {
+            GluonObservableList<School> mylistSchool = HttpRequests.getAllSchool();
+
+            mylistSchool.setOnSucceeded(connectStateEvent -> {
+                this.cbSchool.setItems(mylistSchool);
+
+                System.out.println(mylistSchool);
+            });
+        });
+
         GluonObservableList<School> mylistSchool = HttpRequests.getAllSchool();
         mylistSchool.setOnSucceeded(connectStateEvent -> {
             this.cbSchool.setItems(mylistSchool);
@@ -90,13 +101,15 @@ public class AccueilController implements Initializable  {
         });
 
         cbSchool.getSelectionModel().selectedItemProperty().addListener((observableValue, o, newStr) -> {
-            mySchool = (School) cbSchool.valueProperty().getValue();
-            System.out.println(mySchool);
-            SchoolManagingApplication.setMySchool(mySchool);
-            SchoolManagingApplication.setMyAdresse(mySchool.getAddress());
-            hboxbBtn.setVisible(true);
-            lbNameSchool.setText("** "+mySchool.getName()+" **");
-            lbNameSchool.setVisible(true);
+            if ((School) cbSchool.valueProperty().getValue() != null) {
+                mySchool = (School) cbSchool.valueProperty().getValue();
+                System.out.println(mySchool);
+                SchoolManagingApplication.setMySchool(mySchool);
+                SchoolManagingApplication.setMyAdresse(mySchool.getAddress());
+                hboxbBtn.setVisible(true);
+                lbNameSchool.setText("** " + mySchool.getName() + " **");
+                lbNameSchool.setVisible(true);
+            }
         });
     }
 

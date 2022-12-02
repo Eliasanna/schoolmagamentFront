@@ -65,7 +65,7 @@ public class GestionRoomController implements Initializable {
             this.school = SchoolManagingApplication.getMySchool();
             lbListCourse.setVisible(true);
             initializecb();
-            initializeTableView();
+            chargeListe();
             initializeButtons();
             initializeSelection();
             lbId.setVisible(false);
