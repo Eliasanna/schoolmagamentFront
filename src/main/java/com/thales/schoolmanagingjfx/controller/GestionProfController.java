@@ -122,6 +122,7 @@ public class GestionProfController implements Initializable {
             myTeacher.setFirstName(tbFName.getText());
             myTeacher.setLastName(txtLName.getText());
             myTeacher.setBirthdate(txtDate.getText());
+            listCourseTeacher.clear();
             Course c1 = (Course) cbCourse1.valueProperty().getValue();
             Course c2 = (Course) cbCourse2.valueProperty().getValue();
             Course c3 = (Course) cbCourse3.valueProperty().getValue();
