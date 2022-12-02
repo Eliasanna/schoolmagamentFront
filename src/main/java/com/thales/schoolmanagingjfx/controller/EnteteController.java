@@ -38,7 +38,7 @@ public class EnteteController implements Initializable  {
     private void initializeImage() {
         //String imageURL="@../../../images/"+SchoolManagingApplication.getMySchool().getLogo()+".jpg";
        //System.out.println(imageURL);
-        String imageURL="C:\\Users\\celin\\IdeaProjects\\schoolManagingJFx\\src\\main\\resources\\images\\"+SchoolManagingApplication.getMySchool().getLogo()+".jpg";
+        String imageURL="C:\\Users\\User\\IdeaProjects\\schoolmagamentFront\\src\\main\\resources\\images\\"+SchoolManagingApplication.getMySchool().getLogo()+".jpg";
         Image logo = new Image(imageURL);
         imLogo.setImage(logo);
     }
