@@ -5,7 +5,6 @@ import com.gluonhq.connect.GluonObservableObject;
 import com.thales.schoolmanagingjfx.SchoolManagingApplication;
 import com.thales.schoolmanagingjfx.model.ClassRoom;
 import com.thales.schoolmanagingjfx.model.Course;
-import com.thales.schoolmanagingjfx.model.Grade;
 import com.thales.schoolmanagingjfx.model.School;
 import com.thales.schoolmanagingjfx.utils.HttpRequests;
 import javafx.beans.property.ObjectProperty;
@@ -36,7 +35,7 @@ public class GestionRoomController implements Initializable {
     @FXML
     public ComboBox cbExcluCourse;
     @FXML
-    public Button btnAddExclueCourse;
+    public Button btnAddExcluCourse;
     @FXML
     public Label lbListCourse;
     @FXML
@@ -47,6 +46,8 @@ public class GestionRoomController implements Initializable {
     public Button btnSup;
     @FXML
     public Label lbId;
+    @FXML
+    public Button btnClearExcluCourse;
     private School school = SchoolManagingApplication.getMySchool();
 
     private ObjectProperty<ClassRoom> selectedClassRoom = new SimpleObjectProperty<ClassRoom>();
@@ -58,15 +59,18 @@ public class GestionRoomController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setEntete();
+        lbListCourse.setText("");
         lbListCourse.setVisible(false);
         SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
             this.school = SchoolManagingApplication.getMySchool();
+            lbListCourse.setVisible(true);
             initializecb();
             initializeTableView();
             initializeButtons();
             initializeSelection();
             lbId.setVisible(false);
         });
+        lbListCourse.setVisible(false);
         initializecb();
         initializeTableView();
         initializeButtons();
@@ -112,7 +116,6 @@ public class GestionRoomController implements Initializable {
             txtName.clear();
             txtCapacity.clear();
             lbListCourse.setText("");
-            lbListCourse.setVisible(false);
         });
 
         btnAdd.setOnMouseClicked(mouseEvent -> {
@@ -120,7 +123,7 @@ public class GestionRoomController implements Initializable {
             myClassRoom.setName(txtName.getText());
             myClassRoom.setCapacity(Integer.parseInt(txtCapacity.getText()));
             myClassRoom.setSchool(school);
-
+            myClassRoom.setExcludedCourses(listCourseExclue);
             GluonObservableObject<ClassRoom> potentialConnected = HttpRequests.addClassRoom(myClassRoom);
             potentialConnected.setOnFailed(connectStateEvent -> {
                 classRoomss.add(myClassRoom);
@@ -137,11 +140,19 @@ public class GestionRoomController implements Initializable {
             HttpRequests.deleteCourse(id);
         });
 
-        btnAddExclueCourse.setOnMouseClicked(mouseEvent -> {
+        btnClearExcluCourse.setOnMouseClicked(mouseEvent -> {
+            lbListCourse.setText("");
+            listCourseExclue.clear();
+        });
+
+        btnAddExcluCourse.setOnMouseClicked(mouseEvent -> {
             Course cExclu = (Course) cbExcluCourse.valueProperty().getValue();
             listCourseExclue.add(cExclu);
-            lbListCourse.setVisible(true);
-            lbListCourse.setText(listCourseExclue.toString());
+            String stringC ="";
+            for (Course c: listCourseExclue) {
+                stringC+=c.getName()+", ";
+            }
+            lbListCourse.setText(stringC);
         });
     }
     private void initializeTableView() {
@@ -173,17 +184,30 @@ public class GestionRoomController implements Initializable {
         this.selectedClassRoom.addListener((observableValue, classRoom, classRoom1)-> {
 
             if(classRoom1==null){
+
                 lbId.setVisible(false);
                 txtName.clear();
                 txtCapacity.clear();
+                lbListCourse.setVisible(true);
+                String stringC ="";
+                for (Course c: classRoom1.getExcludedCourses()) {
+                    stringC+=c.getName()+", ";
+                }
+                lbListCourse.setText(stringC);
+
             }
             else{
-            this.lbId.setText(String.valueOf(classRoom1.getId()));
-            lbId.setVisible(true);
 
+            this.lbId.setText(String.valueOf(classRoom1.getId()));
+            this.lbId.setVisible(true);
             this.txtName.setText(classRoom1.getName());
             this.txtCapacity.setText(String.valueOf(classRoom1.getCapacity()));
-            this.lbListCourse.setText(listCourseExclue.toString());
+                lbListCourse.setVisible(true);
+                String stringC ="";
+                for (Course c: classRoom1.getExcludedCourses()) {
+                    stringC+=c.getName()+", ";
+                }
+                lbListCourse.setText(stringC);
             }
         });
     }

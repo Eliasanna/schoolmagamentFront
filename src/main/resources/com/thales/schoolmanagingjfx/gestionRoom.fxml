@@ -94,11 +94,20 @@
                         </HBox>
                         <HBox prefHeight="50.0" prefWidth="364.0">
                             <children>
-                                <Button fx:id="btnAddExclueCourse" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" text="Ajouter">
-                                    <font>
-                                        <Font name="System Bold" size="10.0" />
-                                    </font>
-                                </Button>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                                      <Button fx:id="btnAddExcluCourse" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" text="Ajouter">
+                                          <font>
+                                              <Font name="System Bold" size="10.0" />
+                                          </font>
+                                      </Button>
+                              <Button fx:id="btnClearExcluCourse" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" text="Vider liste">
+                                 <font>
+                                    <Font name="System Bold" size="10.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
                                 <Pane prefHeight="50.0" prefWidth="52.0" />
                                 <Label fx:id="lbListCourse" prefHeight="18.0" prefWidth="282.0" text="Label">
                                     <font>

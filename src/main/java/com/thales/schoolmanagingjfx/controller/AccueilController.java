@@ -103,7 +103,10 @@ public class AccueilController implements Initializable  {
     private void initializeTxt() {
        lbNameSchool.isVisible();
        this.lbNameSchool.setText("****");
-       this.lbLogin.setText(SchoolManagingApplication.getUser().getLogin());
+       SchoolManagingApplication.connectedUserProperty().addListener((observableValue, user, t1) -> {
+           this.lbLogin.setText(SchoolManagingApplication.getConnectedUser().getLogin());
+       });
+        this.lbLogin.setText(SchoolManagingApplication.getConnectedUser().getLogin());
     }
 
     private void initializeButtons() {
