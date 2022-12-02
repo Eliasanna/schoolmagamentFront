@@ -28,7 +28,7 @@ public class SchoolManagingApplication extends Application {
     private static String currentScreen = "userConnect";
     public static int APPWIDTH = 900;
     public static int APPLENGHT = 500;
-    private static User connectedUser;
+    private static ObjectProperty<User> connectedUser= new SimpleObjectProperty<User>();
     private static  ObjectProperty<School> mySchool= new SimpleObjectProperty<School>();
     private static  ObjectProperty<Address> myAdresse= new SimpleObjectProperty<Address>();
 
@@ -53,7 +53,6 @@ public class SchoolManagingApplication extends Application {
 
         Scene scene = new Scene(root, APPWIDTH, APPLENGHT);
         stage.setTitle("SchoolManaging");
-        System.out.println(getUser());
         stage.setScene(scene);
         stage.show();
     }
@@ -71,12 +70,16 @@ public class SchoolManagingApplication extends Application {
         currentScreen = screen;
     }
 
-    public static void setUser(User user){
-        connectedUser = user;
+    public static User getConnectedUser() {
+        return connectedUser.get();
     }
 
-    public static User getUser(){
+    public static ObjectProperty<User> connectedUserProperty() {
         return connectedUser;
+    }
+
+    public static void setConnectedUser(User connectedUser) {
+        SchoolManagingApplication.connectedUser.set(connectedUser);
     }
 
     public static School getMySchool() {

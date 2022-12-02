@@ -45,7 +45,7 @@ public class GestionUserController implements Initializable {
     @FXML
     public Button btnSup;
 
-    User user=SchoolManagingApplication.getUser();
+    User user=SchoolManagingApplication.getConnectedUser();
 
     private ObjectProperty<User> selectedUser = new SimpleObjectProperty<User>();
 
@@ -57,8 +57,19 @@ public class GestionUserController implements Initializable {
 
     private void initializeText() {
         lbId.setText(String.valueOf(user.getId()));
-        lbLogin.setText(user.getLogin());
-        lbPassword.setText(user.getPassword());
+
+        SchoolManagingApplication.connectedUserProperty().addListener((observableValue, user, t1) -> {
+            this.lbLogin.setText(SchoolManagingApplication.getConnectedUser().getLogin());
+            this.lbPassword.setText(SchoolManagingApplication.getConnectedUser().getPassword());
+            this.txtLogin.setText(SchoolManagingApplication.getConnectedUser().getLogin());
+            this.lbPassword.setText(SchoolManagingApplication.getConnectedUser().getPassword());
+            lbId.setText(String.valueOf(SchoolManagingApplication.getConnectedUser().getId()));
+        });
+        this.lbLogin.setText(SchoolManagingApplication.getConnectedUser().getLogin());
+        this.lbPassword.setText(SchoolManagingApplication.getConnectedUser().getPassword());
+        this.txtLogin.setText(SchoolManagingApplication.getConnectedUser().getLogin());
+        this.lbPassword.setText(SchoolManagingApplication.getConnectedUser().getPassword());
+        lbId.setText(String.valueOf(SchoolManagingApplication.getConnectedUser().getId()));
     }
 
     private void initializeButtons() {
@@ -100,7 +111,8 @@ public class GestionUserController implements Initializable {
 
             lbLogin.setText(myUser.getLogin());
             lbPassword.setText(myUser.getPassword());
-            SchoolManagingApplication.setUser(myUser);
+            SchoolManagingApplication.setConnectedUser(myUser);
+
         });
     }
 }

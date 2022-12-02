@@ -50,7 +50,10 @@ public class EnteteController implements Initializable  {
     }
 
     private void initializetxt() {
-        this.lbUtilisateur.setText(SchoolManagingApplication.getUser().getLogin());
+        SchoolManagingApplication.connectedUserProperty().addListener((observableValue, user, t1) -> {
+            this.lbUtilisateur.setText(SchoolManagingApplication.getConnectedUser().getLogin());
+        });
+        this.lbUtilisateur.setText(SchoolManagingApplication.getConnectedUser().getLogin());
         this.lbName.setText(SchoolManagingApplication.getMySchool().getName());
         SchoolManagingApplication.mySchoolProperty().addListener((observableValue, school, t1) -> {
                     this.lbName.setText(SchoolManagingApplication.getMySchool().getName());

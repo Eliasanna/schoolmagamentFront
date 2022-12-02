@@ -19,6 +19,7 @@ public class UserConnectController implements Initializable {
     public TextField txtPassWord;
     @FXML
     public Button btnConnect;
+    @FXML
     public Label lbError;
 
     @Override
@@ -30,8 +31,12 @@ public class UserConnectController implements Initializable {
                     HttpRequests.tryLogin(new User(txtUser.getText(), txtPassWord.getText()));
 
             PotentialConnected.setOnSucceeded(connectStateEvent -> {
-                SchoolManagingApplication.setUser(PotentialConnected.get());
+                SchoolManagingApplication.setConnectedUser(PotentialConnected.get());
+
                 SchoolManagingApplication.setScreen("accueil");
+                txtPassWord.clear();
+                txtUser.clear();
+                lbError.setVisible(false);
             });
             PotentialConnected.setOnFailed(connectStateEvent -> {
                 lbError.setVisible(true);
